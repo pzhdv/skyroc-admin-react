@@ -1,0 +1,67 @@
+.uploadContainer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.uploadWrapper {
+  position: relative;
+  background-color: rgba(0, 0, 0, 0.02);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px dashed #d9d9d9;
+  overflow: hidden;
+
+  &:hover {
+    border-color: #1677ff;
+  }
+}
+
+.toolbarWrapper {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0; /* 默认透明，不显示 */
+  visibility: hidden; /* 默认不可见 */
+  transition:
+    opacity 0.5s ease,
+    visibility 0.5s ease; /* 添加过渡效果*/
+}
+
+.uploadImageWrapper {
+  &:hover {
+    .toolbarWrapper {
+      opacity: 1; /* 鼠标移入时显示 */
+      visibility: visible; /* 鼠标移入时可见 */
+    }
+  }
+}
+
+.show {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+
+.fileInput {
+  color: transparent;
+  opacity: 0;
+  z-index: -1;
+  height: 0;
+  width: 0;
+}
