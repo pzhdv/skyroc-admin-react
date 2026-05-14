@@ -1,4 +1,4 @@
-import type { FlatRequestInstance, RequestInstance } from '@sa/axios';
+import type { RequestInstance } from '@sa/axios';
 import { BACKEND_ERROR_CODE } from '@sa/axios';
 import type { AxiosError, AxiosInstance, AxiosResponse } from 'axios';
 

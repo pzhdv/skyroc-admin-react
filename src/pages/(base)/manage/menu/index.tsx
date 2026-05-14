@@ -1,19 +1,18 @@
 import { Suspense } from 'react';
 
+import buttonAuthCode from '@/constants/btn-auth-code';
 import { enableStatusRecord, menuTypeRecord } from '@/constants/business';
-
-import { MenuTagMap, ATG_MAP, YesOrNo_Map, yesOrNoRecord } from '@/constants/common';
+import { ATG_MAP, MenuTagMap, YesOrNo_Map, yesOrNoRecord } from '@/constants/common';
 import { TableHeaderOperation, useTable, useTableOperate, useTableScroll } from '@/features/table';
 import { pages } from '@/router/elegant/imports';
 import { fetchGetMenuList, fetchMenuDeleteById, fetchSysMenuAdd, fetchSysMenuUpdate } from '@/service/api';
+import { IconType } from '@/service/enums';
 
 import MenuOperateModal from './modules/menu-operate-modal';
 import type { OperateType } from './modules/shared';
 import { createDefaultModel, extractRouteParamsFromTemplate, flattenMenu, getLayoutAndPage } from './modules/shared';
-import { IconType } from '@/service/enums';
 
-
-const ROOT_PARENT_ID = 0;// 根节点父级 ID
+const ROOT_PARENT_ID = 0; // 根节点父级 ID
 
 const Menu = () => {
   const { t } = useTranslation();
@@ -31,11 +30,11 @@ const Menu = () => {
     // 3. 不能是 undefined，否则表单字段将不是响应式的
     apiParams: {
       current: 1,
-      size: 10,
       menuName: null,
       menuType: null,
-      status: null,
-      parentId: ROOT_PARENT_ID
+      parentId: ROOT_PARENT_ID,
+      size: 10,
+      status: null
     },
     columns: () => [
       {
@@ -106,7 +105,7 @@ const Menu = () => {
         align: 'center',
         dataIndex: 'component',
         key: 'component',
-        title: "组件路径",
+        title: t('page.manage.menu.component'),
         width: 120
       },
       {
@@ -129,7 +128,7 @@ const Menu = () => {
           const label = t(yesOrNoRecord[hide]);
           return <ATag color={YesOrNo_Map[hide]}>{label}</ATag>;
         },
-        title: '缓存路由',
+        title: t('page.manage.menu.keepAlive'),
         width: 80
       },
       {
@@ -141,7 +140,7 @@ const Menu = () => {
           const label = t(yesOrNoRecord[hide]);
           return <ATag color={YesOrNo_Map[hide]}>{label}</ATag>;
         },
-        title: '常量路由',
+        title: t('page.manage.menu.constant'),
         width: 80
       },
       {
@@ -172,128 +171,103 @@ const Menu = () => {
       },
       {
         align: 'center',
-        dataIndex: 'createdTime',
-        key: 'createdTime',
-        title: '创建时间',
+        dataIndex: 'createTime',
+        key: 'createTime', // 👈 必须有 key
+        title: t('common.createTime'),
         width: 160
       },
       {
         align: 'center',
-        dataIndex: 'updatedTime',
-        key: 'updatedTime',
-        title: '更新时间',
+        dataIndex: 'updateTime',
+        key: 'updateTime', // 👈 必须有 key
+        title: t('common.updateTime'),
         width: 160
       },
       {
         align: 'center',
+        fixed: 'right',
         key: 'operate',
         render: (_, record, index) => (
           <div className="flex-center justify-end gap-8px">
             {record.menuType === 1 && (
-              <AButton
-                ghost
-                size="small"
-                type="primary"
+              <AuthAddButton
+                auth={buttonAuthCode.system.menu.addChild}
+                color="blue"
+                icon={null}
+                variant="outlined"
                 onClick={() => handleAddChildMenu(record.menuId)}
               >
                 {t('page.manage.menu.addChildMenu')}
-              </AButton>
+              </AuthAddButton>
             )}
-            <AButton
-              size="small"
+            <AuthEditButton
+              auth={buttonAuthCode.system.menu.edit}
               onClick={() => edit(record, index)}
-            >
-              {t('common.edit')}
-            </AButton>
-            <APopconfirm
-              title={t('common.confirmDelete')}
-              onConfirm={() => handleDelete(record)}
-            >
-              <AButton
-                danger
-                size="small"
-              >
-                {t('common.delete')}
-              </AButton>
-            </APopconfirm>
+            />
+            <AuthDeleteButton
+              auth={buttonAuthCode.system.menu.delete}
+              onClick={() => handleDelete(record)}
+            />
           </div>
         ),
         title: t('common.operate'),
-        width: 200
+        width: 350
       }
     ],
-    rowKey: 'menuId',
+    isChangeURL: false,
     pagination: {
       hideOnSinglePage: true
-    }
+    },
+    rowKey: 'menuId' // 是否同步 URL 参数（可选） false: 不同步，true: 同步到 URL
   });
 
   const menuList = useMemo(() => {
-    const rootMenu = { label: "根菜单", value: ROOT_PARENT_ID };
+    const rootMenu = { label: '根菜单', value: ROOT_PARENT_ID };
     const rest = flattenMenu(data || []);
     return [rootMenu, ...rest];
   }, [data]);
 
-  const {
-    checkedRowKeys,
-    generalPopupOperation,
-    handleAdd,
-    handleEdit,
-    openDrawer,
-    onBatchDeleted,
-    onDeleted,
-    rowSelection
-  } = useTableOperate({
-    data,
-    // 添加成功 返回true 【添加失败 返回false 不关闭抽屉】
-    executeResActions: async (newData, type) => {
-      // 操作结果标识
-      let isSuccess = true;
-      const queryArr = newData.query || []
-      const newDataCopy = { ...newData, query: JSON.stringify(queryArr) }
-      try {
-        // 根据操作类型调用不同的 API
-        if (type === 'add') {
-          await fetchSysMenuAdd(newDataCopy)
-        } else {
-          await fetchSysMenuUpdate(newDataCopy)
+  const { checkedRowKeys, generalPopupOperation, handleAdd, handleEdit, onDeleted, openDrawer, rowSelection } =
+    useTableOperate({
+      data,
+      // 添加成功 返回true 【添加失败 返回false 不关闭抽屉】
+      executeResActions: async (newData, type) => {
+        // 操作结果标识
+        let isSuccess = true;
+        const queryArr = newData.query || [];
+        const newDataCopy = { ...newData, query: JSON.stringify(queryArr) };
+        try {
+          // 根据操作类型调用不同的 API
+          if (type === 'edit') {
+            await fetchSysMenuUpdate(newDataCopy);
+          } else {
+            await fetchSysMenuAdd(newDataCopy);
+          }
+        } catch (error) {
+          // 全局拦截器已处理错误提示，此处无需重复提示
+          console.error(`${type === 'add' ? '新增' : '编辑'}菜单失败：`, error);
+          isSuccess = false;
         }
-      } catch (error) {
-        // 全局拦截器已处理错误提示，此处无需重复提示
-        console.error(`${type === 'add' ? '新增' : '编辑'}菜单失败：`, error);
-        isSuccess = false;
-      }
-      return isSuccess;
-    },
-    getData: run,
-    rowKey: 'menuId' // 行唯一标识(ID)
-  });
+        return isSuccess;
+      },
+      getData: run,
+      rowKey: 'menuId' // 行唯一标识(ID)
+    });
 
   const [operateType, setOperateType] = useState<OperateType>('add');
 
-  async function handleBatchDelete() {
-    // request
-
-    onBatchDeleted();
-  }
-
   function onAdd() {
     setOperateType('add');
-
     handleAdd();
   }
 
-  function handleDelete(menu: Api.SystemManage.SysMenu) {
+  async function handleDelete(menu: Api.SystemManage.SysMenu) {
     if (menu.children && menu.children.length > 0) {
       window.$message?.error('请先删除子菜单，再删除该菜单！');
       return;
     }
-
-    fetchMenuDeleteById(menu.menuId).then(() => {
-      //  ✅ 只有请求成功，才调用 onDeleted（刷新表格+提示成功）
-      onDeleted();
-    })
-
+    await fetchMenuDeleteById(menu.menuId);
+    onDeleted();
   }
 
   function edit(item: Api.SystemManage.SysMenu, index: number) {
@@ -314,9 +288,8 @@ const Menu = () => {
       pathParam: param,
       routePath: path
     });
-
-    handleEdit(itemData);
     setOperateType('edit');
+    handleEdit(itemData);
   }
 
   function handleAddChildMenu(id: number) {
@@ -337,13 +310,15 @@ const Menu = () => {
         extra={
           <TableHeaderOperation
             add={onAdd}
+            addCode={buttonAuthCode.system.menu.add}
             columns={columnChecks}
-            showDelete={false}
             disabledDelete={checkedRowKeys.length === 0}
             loading={tableProps.loading}
+            needPermission={true}
             refresh={run}
             setColumnChecks={setColumnChecks}
-            onDelete={handleBatchDelete}
+            showDelete={false}
+            onDelete={() => {}}
           />
         }
       >

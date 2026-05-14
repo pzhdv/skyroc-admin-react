@@ -27,3 +27,14 @@ export const menuIconTypeRecord: Record<Api.SystemManage.IconType, App.I18n.I18n
 };
 
 export const menuIconTypeOptions = transformRecordToOption(menuIconTypeRecord);
+
+/** 请求方式 国际化映射 */
+export const requestMethodRecord: Record<Api.SystemManage.RequestMethod, App.I18n.I18nKey> = {
+  DELETE: 'page.manage.log.method.delete',
+  GET: 'page.manage.log.method.get',
+  POST: 'page.manage.log.method.post',
+  PUT: 'page.manage.log.method.put'
+};
+
+/** 请求方式下拉选项 */
+export const requestMethodOptions = transformRecordToOption(requestMethodRecord);

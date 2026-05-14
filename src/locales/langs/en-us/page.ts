@@ -1,39 +1,53 @@
 const page: App.I18n.Schema['translation']['page'] = {
   about: {
-    devDep: 'Development Dependency',
-    introduction: `SkyrocAdmin is an elegant and powerful admin template, based on the latest front-end technology stack, including React19.0, Vite6, TypeScript, ReactRouter7,Redux/toolkitand UnoCSS. It has built-in rich theme configuration and components, strict code specifications, and an automated file routing system. In addition, it also uses the online mock data solution based on ApiFox. SkyrocAdmin provides you with a one-stop admin solution, no additional configuration, and out of the box. It is also a best practice for learning cutting-edge technologies quickly.`,
-    prdDep: 'Production Dependency',
+    devDep: 'Development Dependencies',
+    introduction: `SkyrocAdmin is an elegant and powerful backend management template based on the latest front-end tech stack, including React 19.0, Vite 6, TypeScript, React Router 7, Redux/toolkit, and UnoCSS. It features built-in rich theme configurations and components, strict code standards, and an automated file-based routing system. Additionally, it uses an online Mock data solution based on ApiFox. SkyrocAdmin provides a one-stop backend management solution that works out of the box with no extra configuration. It is also the best practice for quickly learning cutting-edge technologies.`,
+    prdDep: 'Production Dependencies',
     projectInfo: {
-      githubLink: 'Github Link',
+      githubLink: 'GitHub Link',
       latestBuildTime: 'Latest Build Time',
       previewLink: 'Preview Link',
-      title: 'Project Info',
+      title: 'Project Information',
       version: 'Version'
     },
     title: 'About'
   },
+  exception: {
+    noPermission: {
+      desc: 'Sorry, you do not have permission to access this page. Please contact the administrator for authorization.'
+    },
+    notFound: {
+      desc: 'Sorry, the page you visited does not exist.'
+    },
+    notLogin: {
+      desc: 'Sorry, you are not logged in. Please log in first.'
+    },
+    serverError: {
+      desc: 'Sorry, a server error occurred. Please try again later.'
+    }
+  },
   function: {
     multiTab: {
-      backTab: 'Back function_tab',
-      routeParam: 'Route Param'
+      backTab: 'Back to function tab',
+      routeParam: 'Route Params'
     },
     request: {
-      repeatedError: 'Repeated Request Error',
+      repeatedError: 'Duplicate Request Error',
       repeatedErrorMsg1: 'Custom Request Error 1',
       repeatedErrorMsg2: 'Custom Request Error 2',
-      repeatedErrorOccurOnce: 'Repeated Request Error Occurs Once'
+      repeatedErrorOccurOnce: 'Duplicate request error occurs only once'
     },
     tab: {
       tabOperate: {
-        addMultiTab: 'Add Multi Tab',
-        addMultiTabDesc1: 'To MultiTab page',
-        addMultiTabDesc2: 'To MultiTab page(with query params)',
+        addMultiTab: 'Add Multi-Tab',
+        addMultiTabDesc1: 'Navigate to the multi-tab page',
+        addMultiTabDesc2: 'Navigate to the multi-tab page (with query params)',
         addTab: 'Add Tab',
-        addTabDesc: 'To about page',
+        addTabDesc: 'Navigate to the About page',
         closeAboutTab: 'Close "About" Tab',
         closeCurrentTab: 'Close Current Tab',
         closeTab: 'Close Tab',
-        title: 'Tab Operation'
+        title: 'Tab Operations'
       },
       tabTitle: {
         change: 'Change',
@@ -44,38 +58,38 @@ const page: App.I18n.Schema['translation']['page'] = {
       }
     },
     toggleAuth: {
-      adminOrUserVisible: 'Admin and User Visible',
-      adminVisible: 'Admin Visible',
+      adminOrUserVisible: 'Visible to Admin & User',
+      adminVisible: 'Visible to Admin',
       authHook: 'Auth Hook Function `hasAuth`',
-      superAdminVisible: 'Super Admin Visible',
-      toggleAccount: 'Toggle Account'
+      superAdminVisible: 'Visible to Super Admin',
+      toggleAccount: 'Switch Account'
     }
   },
   home: {
     creativity: 'Creativity',
     dealCount: 'Deal Count',
-    downloadCount: 'Download Count',
+    downloadCount: 'Downloads',
     entertainment: 'Entertainment',
-    greeting: 'Good morning, {{userName}}, today is another day full of vitality!',
-    message: 'Message',
-    projectCount: 'Project Count',
+    greeting: 'Good morning, {{userName}}, another energetic day!',
+    message: 'Messages',
+    projectCount: 'Projects',
     projectNews: {
-      desc1: 'Skyroc created the open source project skyroc-admin on May 28, 2021!',
-      desc2: 'Yanbowe submitted a bug to skyroc-admin, the multi-tab bar will not adapt.',
-      desc3: 'Skyroc is ready to do sufficient preparation for the release of skyroc-admin!',
-      desc4: 'Skyroc is busy writing project documentation for skyroc-admin!',
-      desc5: 'Skyroc just wrote some of the workbench pages casually, and it was enough to see!',
+      desc1: 'Skyroc created the open-source project skyroc-admin on May 28, 2021!',
+      desc2: 'Yanbowe submitted a bug to skyroc-admin: multi-tab does not adapt.',
+      desc3: 'Skyroc is preparing for the release of skyroc-admin!',
+      desc4: 'Skyroc is busy writing documentation for skyroc-admin!',
+      desc5: 'Skyroc just finished the dashboard page roughly!',
       moreNews: 'More News',
       title: 'Project News'
     },
-    registerCount: 'Register Count',
+    registerCount: 'Registrations',
     rest: 'Rest',
-    schedule: 'Work and rest Schedule',
+    schedule: 'Schedule',
     study: 'Study',
-    todo: 'Todo',
+    todo: 'To-Do',
     turnover: 'Turnover',
-    visitCount: 'Visit Count',
-    weatherDesc: 'Today is cloudy to clear, 20℃ - 25℃!',
+    visitCount: 'Visits',
+    weatherDesc: 'Cloudy to sunny today, 20℃ - 25℃!',
     work: 'Work'
   },
   login: {
@@ -83,31 +97,31 @@ const page: App.I18n.Schema['translation']['page'] = {
       title: 'Bind WeChat'
     },
     codeLogin: {
-      getCode: 'Get verification code',
-      imageCodePlaceholder: 'Please enter image verification code',
-      reGetCode: 'Reacquire after {{time}}s',
+      getCode: 'Get Code',
+      imageCodePlaceholder: 'Enter image captcha',
+      reGetCode: 'Re-get in {{time}}s',
       sendCodeSuccess: 'Verification code sent successfully',
-      title: 'Verification Code Login'
+      title: 'Code Login'
     },
     common: {
       back: 'Back',
-      codeLogin: 'Verification code login',
-      codePlaceholder: 'Please enter verification code',
+      codeLogin: 'Code Login',
+      codePlaceholder: 'Enter verification code',
       confirm: 'Confirm',
-      confirmPasswordPlaceholder: 'Please enter password again',
+      confirmPasswordPlaceholder: 'Confirm password',
       loginOrRegister: 'Login / Register',
-      loginSuccess: 'Login successfully',
-      passwordPlaceholder: 'Please enter password',
-      phonePlaceholder: 'Please enter phone number',
-      userNamePlaceholder: 'Please enter user name',
-      validateSuccess: 'Verification passed',
-      welcomeBack: 'Welcome back, {{userName}} !'
+      loginSuccess: 'Login successful',
+      passwordPlaceholder: 'Enter password',
+      phonePlaceholder: 'Enter phone number',
+      userNamePlaceholder: 'Enter username',
+      validateSuccess: 'Validation successful',
+      welcomeBack: 'Welcome back, {{userName}}!'
     },
     pwdLogin: {
       admin: 'Admin',
-      forgetPassword: 'Forget password?',
-      otherAccountLogin: 'Other Account Login',
-      otherLoginMode: 'Other Login Mode',
+      forgetPassword: 'Forgot password?',
+      otherAccountLogin: 'Other account login',
+      otherLoginMode: 'Other login methods',
       register: 'Register',
       rememberMe: 'Remember me',
       superAdmin: 'Super Admin',
@@ -115,9 +129,9 @@ const page: App.I18n.Schema['translation']['page'] = {
       user: 'User'
     },
     register: {
-      agreement: 'I have read and agree to',
-      policy: '《Privacy Policy》',
-      protocol: '《User Agreement》',
+      agreement: 'I have read and accepted the',
+      policy: 'Privacy Policy',
+      protocol: 'User Agreement',
       title: 'Register'
     },
     resetPwd: {
@@ -125,53 +139,103 @@ const page: App.I18n.Schema['translation']['page'] = {
     }
   },
   manage: {
+    button: {
+      addButton: 'Add Button',
+      buttonCode: 'Button Code',
+      buttonName: 'Button Name',
+      buttonStatus: 'Button Status',
+      editButton: 'Edit Button',
+      form: {
+        buttonCode: 'btn:module:action e.g. btn:sys:user:add',
+        buttonName: 'Enter button name',
+        buttonStatus: 'Select button status',
+        selectMenuName: 'Select menu'
+      },
+      selectMenuName: 'Menu',
+      title: 'Button List'
+    },
     common: {
       status: {
-        disable: 'Disable',
-        enable: 'Enable'
+        disable: 'Disabled',
+        enable: 'Enabled'
+      }
+    },
+    log: {
+      form: {
+        placeholder: {
+          maxCostTime: 'Please enter max cost',
+          minCostTime: 'Please enter min cost',
+          requestMethod: 'Please select method',
+          requestUrl: 'Please enter request path',
+          username: 'Please enter username'
+        }
+      },
+      method: {
+        delete: 'DELETE',
+        get: 'GET',
+        post: 'POST',
+        put: 'PUT'
+      },
+      tableTitle: 'System Operation Log',
+      title: {
+        costTime: 'Cost(ms)',
+        createTime: 'Date Range',
+        description: 'Description',
+        index: 'Index',
+        ipAddress: 'IP Address',
+        maxCostTime: 'Max Cost(ms)',
+        minCostTime: 'Min Cost(ms)',
+        operate: 'Operate',
+        requestMethod: 'Method',
+        requestParams: 'Request Params',
+        requestUrl: 'Request Path',
+        responseResult: 'Response Result',
+        userAgent: 'Client Info',
+        username: 'Username'
       }
     },
     menu: {
       activeMenu: 'Active Menu',
-      addChildMenu: 'Add Child Menu',
+      addChildMenu: 'Add Submenu',
       addMenu: 'Add Menu',
       button: 'Button',
       buttonCode: 'Button Code',
-      buttonDesc: 'Button Desc',
-      constant: 'Constant',
+      buttonDesc: 'Button Description',
+      component: 'Component Path',
+      constant: 'Constant Route',
       editMenu: 'Edit Menu',
-      fixedIndexInTab: 'Fixed Index In Tab',
+      fixedIndexInTab: 'Fixed Tab Index',
       form: {
-        activeMenu: 'Please select route name of the highlighted menu',
-        button: 'Please select whether it is a button',
-        buttonCode: 'Please enter button code',
-        buttonDesc: 'Please enter button description',
-        fixedIndexInTab: 'Please enter the index fixed in the tab',
-        fixedInTab: 'Please select whether to fix in the tab',
-        hideInMenu: 'Please select whether to hide menu',
-        home: 'Please select home',
-        href: 'Please enter href',
-        i18nKey: 'Please enter i18n key',
-        icon: 'Please enter iconify name',
-        keepAlive: 'Please select whether to cache route',
-        layout: 'Please select layout component',
-        localIcon: 'Please enter local icon name',
-        menuName: 'Please enter menu name',
-        menuStatus: 'Please select menu status',
-        menuType: 'Please select menu type',
-        multiTab: 'Please select whether to support multiple tabs',
-        order: 'Please enter order',
-        page: 'Please select page component',
-        parent: 'Please select whether to parent menu',
-        pathParam: 'Please enter path param',
-        queryKey: 'Please enter route parameter Key',
-        queryValue: 'Please enter route parameter Value',
-        routeName: 'Please enter route name',
-        routePath: 'Please enter route path'
+        activeMenu: 'Select active menu route name',
+        button: 'Is button',
+        buttonCode: 'Enter button code',
+        buttonDesc: 'Enter button description',
+        fixedIndexInTab: 'Enter fixed tab index',
+        fixedInTab: 'Fixed in tab',
+        hideInMenu: 'Hide in menu',
+        home: 'Home',
+        href: 'External Link',
+        i18nKey: 'I18n Key',
+        icon: 'Icon',
+        keepAlive: 'Cache route',
+        layout: 'Layout component',
+        localIcon: 'Local icon',
+        menuName: 'Menu name',
+        menuStatus: 'Menu status',
+        menuType: 'Menu type',
+        multiTab: 'Multi-tab',
+        order: 'Sort',
+        page: 'Page component',
+        parent: 'Parent menu',
+        pathParam: 'Path params',
+        queryKey: 'Query key',
+        queryValue: 'Query value',
+        routeName: 'Route name',
+        routePath: 'Route path'
       },
       hideInMenu: 'Hide In Menu',
       home: 'Home',
-      href: 'Href',
+      href: 'External Link',
       i18nKey: 'I18n Key',
       icon: 'Icon',
       iconType: {
@@ -180,19 +244,19 @@ const page: App.I18n.Schema['translation']['page'] = {
       },
       iconTypeTitle: 'Icon Type',
       id: 'ID',
-      keepAlive: 'Keep Alive',
-      layout: 'Layout Component',
+      keepAlive: 'Cache Route',
+      layout: 'Layout',
       localIcon: 'Local Icon',
       menuName: 'Menu Name',
       menuStatus: 'Menu Status',
       menuType: 'Menu Type',
-      multiTab: 'Multi Tab',
-      order: 'Order',
+      multiTab: 'Multi-Tab',
+      order: 'Sort',
       page: 'Page Component',
       parent: 'Parent Menu',
       parentId: 'Parent ID',
-      pathParam: 'Path Param',
-      query: 'Query Params',
+      pathParam: 'Path Params',
+      query: 'Route Params',
       routeName: 'Route Name',
       routePath: 'Route Path',
       title: 'Menu List',
@@ -203,15 +267,15 @@ const page: App.I18n.Schema['translation']['page'] = {
     },
     role: {
       addRole: 'Add Role',
-      buttonAuth: 'Button Auth',
+      buttonAuth: 'Button Permissions',
       editRole: 'Edit Role',
       form: {
-        roleCode: 'Please enter role code',
-        roleDesc: 'Please enter role description',
-        roleName: 'Please enter role name',
-        roleStatus: 'Please select role status'
+        roleCode: 'e.g. R_SUPER_ADMIN/R_ADMIN/R_GUEST',
+        roleDesc: 'Enter role description',
+        roleName: 'e.g. Super Admin/Admin/Guest',
+        roleStatus: 'Select role status'
       },
-      menuAuth: 'Menu Auth',
+      menuAuth: 'Menu Permissions',
       roleCode: 'Role Code',
       roleDesc: 'Role Description',
       roleName: 'Role Name',
@@ -219,40 +283,47 @@ const page: App.I18n.Schema['translation']['page'] = {
       title: 'Role List'
     },
     roleDetail: {
-      content: 'This page is solely for displaying all matched multi-level dynamic routes.',
+      content: 'This page is only for displaying matching all multi-level dynamic routes',
       explain:
-        '[...slug] is the syntax for matching all multi-level dynamic routes. The data is random and may not match.'
+        '[...slug] is the syntax to match all multi-level dynamic routes in the format [...any]. The matched data will be stored as an array in useRoute params.'
     },
     user: {
       addUser: 'Add User',
+      avatar: 'Avatar',
       editUser: 'Edit User',
       form: {
-        nickName: 'Please enter nick name',
-        userEmail: 'Please enter email',
-        userGender: 'Please select gender',
-        userName: 'Please enter user name',
-        userPassword: 'Please enter user password',
-        userPhone: 'Please enter phone number',
-        userRole: 'Please select user role',
-        userStatus: 'Please select user status'
+        nickName: 'Enter nickname',
+        userEmail: 'Enter email',
+        userGender: 'Select gender',
+        userName: 'Enter username',
+        userPassword: 'Enter password',
+        userPhone: 'Enter phone',
+        userRole: 'Select role',
+        userStatus: 'Select status'
       },
       gender: {
         female: 'Female',
         male: 'Male'
       },
-      nickName: 'Nick Name',
+      nickName: 'Nickname',
+      roleList: 'Roles',
       title: 'User List',
       userEmail: 'Email',
       userGender: 'Gender',
-      userName: 'User Name',
-      userPassword: 'User Password',
-      userPhone: 'Phone Number',
-      userRole: 'User Role',
-      userStatus: 'User Status'
+      userId: 'User ID',
+      userName: 'Username',
+      userPassword: 'Password',
+      userPhone: 'Phone',
+      userRole: 'Role',
+      userStatus: 'Status'
     },
     userDetail: {
-      content: `The loader allows network requests and lazy-loaded files to be triggered almost simultaneously, enabling the lazy-loaded files to be parsed while waiting for the network request to complete. Once the network request finishes, the page is displayed all at once. Leveraging React's Fiber architecture, if users find the waiting time too long, they can switch to different pages during the wait. This is an advantage of the React framework and React Router's data loader, as it avoids the conventional sequence of: request lazy-loaded file -> parse -> mount -> send network request -> render page -> display, and eliminates the need for manually adding a loading effect.`,
-      explain: `This page is solely for demonstrating the powerful capabilities of react-router-dom's loader. The data is random and may not match.`
+      content: `Loader allows network requests and lazy-loaded files to be fetched almost in parallel. While parsing lazy-loaded files, it waits for network requests to complete.
+        Once the request finishes, the page renders entirely. Combined with React's Fiber architecture, users can switch pages during waiting if they feel it’s taking too long.
+        This is the advantage of React and React Router data routers, unlike the conventional process:
+        Request lazy file → Parse → Request data → Mount → Render`,
+      explain:
+        'This page only demonstrates the powerful loader capability of react-router-dom. Data is random and mismatched is normal.'
     }
   }
 };

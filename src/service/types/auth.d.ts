@@ -30,6 +30,10 @@ declare namespace Api {
       avatar?: string;
       /** 按钮权限列表（格式：模块:操作，如user:add） */
       buttons: string[];
+      /** 用户是否有路由权限 */
+      hasRoutePermission: boolean;
+      /** 默认首页路径 如：/home */
+      homePath: string;
       /** 用户角色列表（标识以R_开头，如R_SUPER/R_ADMIN） */
       roles: string[];
       /** 登录用户ID */

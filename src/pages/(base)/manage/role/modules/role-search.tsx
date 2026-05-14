@@ -6,6 +6,7 @@ const RoleSearch: FC<Page.SearchProps> = memo(({ form, reset, search, searchPara
 
   return (
     <AForm
+      autoComplete="off"
       form={form}
       initialValues={searchParams}
       labelCol={{
@@ -57,7 +58,7 @@ const RoleSearch: FC<Page.SearchProps> = memo(({ form, reset, search, searchPara
             <ASelect
               allowClear
               options={translateOptions(enableStatusOptions)}
-              placeholder={t('page.manage.user.form.userGender')}
+              placeholder={t('page.manage.role.form.roleStatus')}
             />
           </AForm.Item>
         </ACol>

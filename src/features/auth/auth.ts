@@ -78,21 +78,37 @@ export function useInitAuth() {
         const { data: info, error } = await refetchUserInfo();
 
         if (!error && info) {
+          // 如果没有访问权限(无菜单路由)，弹窗提示并重置认证状态
+          if (!info.hasRoutePermission) {
+            window.$modal?.warning({
+              content: t('common.accessDenied'),
+              onOk: () => {
+                endLoading();
+                resetAuth();
+              },
+              title: t('common.accessDeniedTitle')
+            });
+            return;
+          }
+
           const previousUserId = localStg.get('previousUserId');
 
-          localStg.set('userInfo', info);
+          const homePath = info.homePath || globalConfig.homePath;
+          const useInfo = { ...info, homePath };
+
+          localStg.set('userInfo', useInfo);
 
           dispatch(setToken(data.refreshToken));
-
+          console.log('homePath', homePath);
           if (previousUserId !== info.userId || !previousUserId) {
             localStg.remove('globalTabs');
 
-            replace(globalConfig.homePath);
+            replace(homePath);
           } else if (redirect) {
             if (redirectUrl) {
               replace(redirectUrl);
             } else {
-              replace(globalConfig.homePath);
+              replace(homePath);
             }
           }
 
@@ -147,19 +163,33 @@ export function resetAuth() {
     localStg.set('globalTabs', tabs);
   }
 
-  // 清除查询缓存
+  // 取消所有还在发的请求，避免用户退出后还收到接口返回
+  queryClient.cancelQueries();
+
+  // 清除所有查询缓存（真正清空数据）
   queryClient.clear();
+
+  // 项目基础路径
+  const baseUrl = import.meta.env.VITE_BASE_URL;
 
   const location = router.reactRouter.state.location;
 
   const fullPath = location.pathname + location.search + location.hash;
+
+  let redirectPath;
+  // 只有 baseUrl 不是 / 时，才裁剪
+  if (baseUrl && baseUrl !== '/' && fullPath.startsWith(baseUrl)) {
+    redirectPath = fullPath.slice(baseUrl.length - 1); // fullPath = '/admin/dashboard' => redirectPath = '/dashboard'
+  } else {
+    redirectPath = fullPath;
+  }
   // 获取当前路径
   const currentPath = location.pathname + location.search;
   const isLoginPage = currentPath.includes('/login');
 
   // 如果不是登录页，跳转到登录页并带上 redirect 参数
   if (!isLoginPage) {
-    router.push('/login', { query: { redirect: fullPath }, replace: true });
+    router.push('/login', { query: { redirect: redirectPath }, replace: true });
   } else {
     router.replace('/login');
   }

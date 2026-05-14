@@ -37,16 +37,26 @@ declare global {
   const ASpin: typeof import('antd')['Spin']
   const AStatistic: typeof import('antd')['Statistic']
   const ASwitch: typeof import('antd')['Switch']
+  const ATG_MAP: typeof import('antd')['TG_MAP']
   const ATable: typeof import('antd')['Table']
   const ATag: typeof import('antd')['Tag']
   const ATooltip: typeof import('antd')['Tooltip']
   const ATree: typeof import('antd')['Tree']
   const ATypography: typeof import('antd')['Typography']
   const AWatermark: typeof import('antd')['Watermark']
+  const AddButton: typeof import('../components/Buttons/index')['AddButton']
+  const AuthAddButton: typeof import('../components/Buttons/AuthAddButton')['default']
+  const AuthBtn: typeof import('../components/Buttons/index')['AuthBtn']
+  const AuthDeleteButton: typeof import('../components/Buttons/AuthDeleteButton')['default']
+  const AuthDetailButton: typeof import('../components/Buttons/AuthDetailButton')['default']
+  const AuthEditButton: typeof import('../components/Buttons/AuthEditButton')['default']
   const BetterScroll: typeof import('../components/BetterScroll')['default']
   const BeyondHiding: typeof import('../components/BeyondHiding')['default']
   const ButtonIcon: typeof import('../components/ButtonIcon')['default']
   const DarkModeContainer: typeof import('../components/DarkModeContainer')['default']
+  const DeleteButton: typeof import('../components/Buttons/index')['DeleteButton']
+  const DetailButton: typeof import('../components/Buttons/index')['DetailButton']
+  const EditButton: typeof import('../components/Buttons/index')['EditButton']
   const ErrorBoundary: typeof import('../components/ErrorBoundary')['default']
   const ExceptionBase: typeof import('../components/ExceptionBase')['default']
   const FilpText: typeof import('../components/FilpText')['default']
@@ -88,6 +98,7 @@ declare global {
   const SystemLogo: typeof import('../components/SystemLogo')['default']
   const TypingAnimation: typeof import('../components/TypingAnimation')['TypingAnimation']
   const UploadImage: typeof import('../components/UploadImage/index')['default']
+  const ViewButton: typeof import('../components/Buttons/index')['ViewButton']
   const WaveBg: typeof import('../components/WaveBg')['default']
   const copy: typeof import('../hooks/common/copy')['default']
   const createRef: typeof import('react')['createRef']
@@ -220,4 +231,7 @@ declare global {
   // @ts-ignore
   export type { ECOption } from '../hooks/common/echarts'
   import('../hooks/common/echarts')
+  // @ts-ignore
+  export type { SimpleButtonProps, AuthButtonProp, AuthBtnProps } from '../components/Buttons/type'
+  import('../components/Buttons/type')
 }

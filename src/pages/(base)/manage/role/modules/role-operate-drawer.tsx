@@ -121,18 +121,18 @@ const RoleOperateDrawer: FC<Props> = memo(({ form, handleSubmit, onClose, open, 
 
       {operateType === 'edit' && (
         <ASpace>
-          {/* <AButton onClick={openButtonAuthModal}>{t('page.manage.role.buttonAuth')}</AButton>
-          <ButtonAuthModal
-            open={buttonAuthVisible}
-            roleId={rowId}
-            onClose={closeButtonAuthModal}
-          /> */}
-
           <AButton onClick={openMenuAuthModal}>{t('page.manage.role.menuAuth')}</AButton>
           <MenuAuthModal
             open={menuAuthVisible}
             roleId={rowId}
             onClose={closeMenuAuthModal}
+          />
+
+          <AButton onClick={openButtonAuthModal}>{t('page.manage.role.buttonAuth')}</AButton>
+          <ButtonAuthModal
+            open={buttonAuthVisible}
+            roleId={rowId}
+            onClose={closeButtonAuthModal}
           />
         </ASpace>
       )}

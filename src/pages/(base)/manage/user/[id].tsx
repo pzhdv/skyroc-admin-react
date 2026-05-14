@@ -13,34 +13,34 @@ type Values = ValuesOf<Api.SystemManage.SystemUser>;
 function transformDataToItem<T extends string, U extends Values>(
   tuple: [T, U]
 ): NonNullable<Item<DescriptionsProps['items']>> {
- const [key, value] = tuple;
- // 空值处理
+  const [key, value] = tuple;
+  // 空值处理
   if (value === undefined || value === null) {
-    return { key: key.toString(), label: key, children: '-' };
+    return { children: '-', key: key.toString(), label: key };
   }
 
   // 数组处理
   if (Array.isArray(value)) {
     if (key === 'roleList') {
-      const roleList = value  as Api.SystemManage.RoleSimple[];
+      const roleList = value as Api.SystemManage.RoleSimple[];
       return {
+        children: roleList.length ? roleList.map(r => r.roleName).join('、') : '无',
         key: 'roleList',
-        label: 'roleList',
-        children: roleList.length ? roleList.map(r => r.roleName).join('、') : '无'
+        label: 'roleList'
       };
     }
     if (key === 'roleIds') {
       return {
+        children: value.length ? value.join('、') : '无',
         key: 'roleIds',
-        label: 'roleIds',
-        children: value.length ? value.join('、') : '无'
+        label: 'roleIds'
       };
     }
-    return { key: key.toString(), label: key, children: value.join('、') };
+    return { children: value.join('、'), key: key.toString(), label: key };
   }
 
   // 兜底
-  return { key: key.toString(), label: key, children: String(value) };
+  return { children: String(value), key: key.toString(), label: key };
 }
 
 // 这个页面仅仅是为了展示 react-router-dom 的 loader 的强大能力，数据是随机的对不上很正常

@@ -15,7 +15,7 @@ export function getAuthorization() {
 /**
  * 刷新令牌
  *
- * @param axiosConfig - 令牌过期时的请求配置（注：原参数声明与函数实现无关联，保留注释语义）
+ * @param axiosConfig - 令牌过期时的请求配置
  */
 export async function handleRefreshToken() {
   const refreshToken = localStg.get('refreshToken') || '';

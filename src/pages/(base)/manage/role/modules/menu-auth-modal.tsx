@@ -2,15 +2,15 @@ import { SimpleScrollbar } from '@sa/materials';
 import type { DataNode } from 'antd/es/tree';
 import { useMemo } from 'react';
 
+import { fetchGetMenuIdsAndHomeByRoleId, fetchUpdateRoleMenuAuth } from '@/service/api';
 import { useAllPages, useMenuTree } from '@/service/hooks/useSystemManage';
 
 import type { ModulesProps } from './type';
-import { fetchGetMenuIdsAndHomeByRoleId, fetchUpdateRoleMenuAuth } from '@/service/api';
 
 const MenuAuthModal: FC<ModulesProps> = memo(({ onClose, open, roleId }) => {
   const { t } = useTranslation();
 
-  const title = t('common.edit') + t('page.manage.role.menuAuth');
+  const title = t('common.grant') + t('page.manage.role.menuAuth');
 
   const { data: allPages = [], isLoading: isLoadingPages } = useAllPages();
   const { data: menuTree = [], isLoading: isLoadingTree } = useMenuTree();
@@ -40,24 +40,21 @@ const MenuAuthModal: FC<ModulesProps> = memo(({ onClose, open, roleId }) => {
     return menuTree.map(convertMenuTreeToDataNode);
   }, [menuTree, t]);
 
-
-
   async function handleSubmit() {
     // request - 更新角色菜单权限
-    const roleMenu: Api.SystemManage.RoleMenuVO = { roleId, menuIdList: checks, defaultHomePageId }
+    const roleMenu: Api.SystemManage.RoleMenuVO = { defaultHomePageId, menuIdList: checks, roleId };
     await fetchUpdateRoleMenuAuth(roleMenu);
 
-    window.$message?.success?.(t('common.modifySuccess'));
+    window.$message?.success?.(t('common.grantSuccess'));
 
     onClose();
   }
 
   async function init() {
-    const data = await fetchGetMenuIdsAndHomeByRoleId(roleId)
+    const data = await fetchGetMenuIdsAndHomeByRoleId(roleId);
     setDefaultHomePageId(data.defaultHomePageId);
     setChecks(data.menuIdList);
   }
-
 
   useUpdateEffect(() => {
     if (open) {

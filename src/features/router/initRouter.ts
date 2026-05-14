@@ -1,10 +1,12 @@
 import type { RouteObject } from 'react-router-dom';
 
 import { authRoutes } from '@/router';
-import { fetchGetSystemRoutes, fetchGetUserInfo } from '@/service/api';
+import { fetchGetSystemRoutes } from '@/service/api';
 import { QUERY_KEYS } from '@/service/keys';
 import { queryClient } from '@/service/queryClient';
 import { store } from '@/store';
+
+import { getUserInfo } from '../auth/shared';
 
 import { transformMenuListToBackendRoutes } from './menu-to-route';
 import { setCacheRoutes, setHomePath } from './routeStore';
@@ -15,10 +17,8 @@ export async function initAuthRoutes(addRoutes: (parent: string | null, route: R
 
   const reactAuthRoutes = mergeValuesByParent(authRoutes);
 
-  const userInfo = await queryClient.ensureQueryData<Api.Auth.LoginUserInfo>({
-    queryFn: fetchGetUserInfo,
-    queryKey: QUERY_KEYS.AUTH.USER_INFO
-  });
+  // 从 queryClient 缓存或 localStorage 获取用户信息（登录时已保存，无需重复请求）
+  const userInfo = queryClient.getQueryData<Api.Auth.LoginUserInfo>(QUERY_KEYS.AUTH.USER_INFO) || getUserInfo();
 
   const isSuper = userInfo?.roles.includes(import.meta.env.VITE_STATIC_SUPER_ROLE);
 
@@ -40,21 +40,14 @@ export async function initAuthRoutes(addRoutes: (parent: string | null, route: R
   } else {
     // 动态模式
     try {
-      // const data = await queryClient.ensureQueryData<Api.Route.BackendRouteResponse>({
-      //   gcTime: Infinity,
-      //   queryFn: fetchGetBackendRoutes,
-      //   queryKey: QUERY_KEYS.ROUTE.USER_ROUTES,
-      //   staleTime: Infinity
-      // });
+      //  获取系统菜单路由数据，缓存不存在时自动请求接口
+      const resData = await queryClient.ensureQueryData<Api.Auth.SystemMenuRoute>({
+        gcTime: Infinity, // 永久缓存，不被垃圾回收
+        queryFn: fetchGetSystemRoutes, // 获取系统路由的请求方法
+        queryKey: QUERY_KEYS.ROUTE.USER_ROUTES, // 缓存唯一key
+        staleTime: Infinity // 数据永不过期，不重新请求
+      });
 
-      // const resData = await queryClient.ensureQueryData<Api.Auth.SystemMenuRoute>({
-      //   gcTime: Infinity,
-      //   queryFn: fetchGetSystemRoutes,
-      //   queryKey: QUERY_KEYS.ROUTE.USER_ROUTES,
-      //   staleTime: Infinity
-      // });
-
-      const resData = await fetchGetSystemRoutes();
       // 转换菜单列表为后端路由格式
       const backendRoutes = transformMenuListToBackendRoutes(resData.routes);
 

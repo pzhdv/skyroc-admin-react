@@ -43,7 +43,9 @@ declare module "@soybean-react/vite-plugin-react-router" {
     "(base)_function_toggle-auth": "/function/toggle-auth";
     "(base)_home": "/home";
     "(base)_manage": "/manage";
+    "(base)_manage_button": "/manage/button";
     "(base)_manage_menu": "/manage/menu";
+    "(base)_manage_operation-log": "/manage/operation-log";
     "(base)_manage_role": "/manage/role";
     "(base)_manage_role_[...slug]": "/manage/role/*";
     "(base)_manage_user": "/manage/user";
@@ -150,8 +152,10 @@ declare module "@soybean-react/vite-plugin-react-router" {
     | "(base)_function_toggle-auth"
     | "(base)_home"
     | "(base)"
+    | "(base)_manage_button"
     | "(base)_manage"
     | "(base)_manage_menu"
+    | "(base)_manage_operation-log"
     | "(base)_manage_role_[...slug]"
     | "(base)_manage_role"
     | "(base)_manage_user_[id]"

@@ -1,12 +1,18 @@
 import boxen, { type Options as BoxenOptions } from 'boxen';
-import gradientString from 'gradient-string';
+import chalk from 'chalk';
 import type { Plugin } from 'vite';
 
 import { themeSettings } from '../../src/theme/settings';
 
-const welcomeMessage = gradientString(themeSettings.themeColor, 'magenta').multiline(
-  `您好! 欢迎使用 skyroc-admin 开源项目\n我们为您精心准备了精美的保姆级文档\nhttps://admin-docs.skyroc.me/`
-);
+// 现代渐变文字欢迎信息
+const welcomeMessage = `
+${chalk.hex(themeSettings.themeColor)('🚀 欢迎使用 skyroc-admin-react 开源项目')}
+${chalk.gray('----------------------------------------------')}
+${chalk.magenta('📦 仓库地址')}
+${chalk.cyan('https://github.com/pzhdv/skyroc-admin-react')}
+
+${chalk.green('✨ 祝你使用愉快！开发效率提升 100%！')}
+`;
 
 const boxenOptions: BoxenOptions = {
   borderColor: themeSettings.themeColor,
@@ -19,7 +25,6 @@ export function setupProjectInfo(): Plugin {
     buildStart() {
       console.log(boxen(welcomeMessage, boxenOptions));
     },
-
     name: 'vite:buildInfo'
   };
 }

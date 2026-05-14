@@ -12,6 +12,20 @@ const page: App.I18n.Schema['translation']['page'] = {
     },
     title: '关于'
   },
+  exception: {
+    noPermission: {
+      desc: '抱歉，您暂无权限访问该页面，请联系管理员授权'
+    },
+    notFound: {
+      desc: '抱歉，您访问的页面不存在'
+    },
+    notLogin: {
+      desc: '抱歉，您还未登录，请先登录'
+    },
+    serverError: {
+      desc: '抱歉，服务器发生错误，请稍后再试'
+    }
+  },
   function: {
     multiTab: {
       backTab: '返回 function_tab',
@@ -125,10 +139,59 @@ const page: App.I18n.Schema['translation']['page'] = {
     }
   },
   manage: {
+    button: {
+      addButton: '新增按钮',
+      buttonCode: '按钮编码',
+      buttonName: '按钮名称',
+      buttonStatus: '按钮状态',
+      editButton: '编辑按钮',
+      form: {
+        buttonCode: 'btn:模块:操作 如：btn:sys:user:add',
+        buttonName: '请输入按钮名称',
+        buttonStatus: '请选择按钮状态',
+        selectMenuName: '请选择菜单名称'
+      },
+      selectMenuName: '所属菜单',
+      title: '权限按钮列表'
+    },
     common: {
       status: {
         disable: '禁用',
         enable: '启用'
+      }
+    },
+    log: {
+      form: {
+        placeholder: {
+          maxCostTime: '请输入最大耗时',
+          minCostTime: '请输入最小耗时',
+          requestMethod: '请选择请求方式',
+          requestUrl: '请输入请求路径',
+          username: '请输入访问用户'
+        }
+      },
+      method: {
+        delete: 'DELETE',
+        get: 'GET',
+        post: 'POST',
+        put: 'PUT'
+      },
+      tableTitle: '系统操作日志',
+      title: {
+        costTime: '耗时(ms)',
+        createTime: '日期范围',
+        description: '接口描述',
+        index: '序号',
+        ipAddress: '访问IP',
+        maxCostTime: '最大耗时(ms)',
+        minCostTime: '最小耗时(ms)',
+        operate: '操作',
+        requestMethod: '请求方式',
+        requestParams: '请求参数',
+        requestUrl: '请求路径',
+        responseResult: '响应结果',
+        userAgent: '客户端信息',
+        username: '访问用户'
       }
     },
     menu: {
@@ -138,6 +201,7 @@ const page: App.I18n.Schema['translation']['page'] = {
       button: '按钮',
       buttonCode: '按钮编码',
       buttonDesc: '按钮描述',
+      component: '组件路径',
       constant: '常量路由',
       editMenu: '编辑菜单',
       fixedIndexInTab: '固定在页签中的序号',
@@ -206,9 +270,9 @@ const page: App.I18n.Schema['translation']['page'] = {
       buttonAuth: '按钮权限',
       editRole: '编辑角色',
       form: {
-        roleCode: '请输入角色编码',
+        roleCode: '如:R_SUPER_ADMIN/R_ADMIN/R_GUEST',
         roleDesc: '请输入角色描述',
-        roleName: '请输入角色名称',
+        roleName: '如:超级管理员/管理员/访客',
         roleStatus: '请选择角色状态'
       },
       menuAuth: '菜单权限',
@@ -225,6 +289,7 @@ const page: App.I18n.Schema['translation']['page'] = {
     },
     user: {
       addUser: '新增用户',
+      avatar: '头像',
       editUser: '编辑用户',
       form: {
         nickName: '请输入昵称',
@@ -241,9 +306,11 @@ const page: App.I18n.Schema['translation']['page'] = {
         male: '男'
       },
       nickName: '昵称',
+      roleList: '角色列表',
       title: '用户列表',
       userEmail: '邮箱',
       userGender: '性别',
+      userId: '用户ID',
       userName: '用户名',
       userPassword: '用户密码',
       userPhone: '手机号',

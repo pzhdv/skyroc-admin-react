@@ -13,7 +13,6 @@ import { translateOptions } from '@/utils/common';
  * @param searchParams - 搜索参数
  */
 const UserSearch: FC<Page.SearchProps> = memo(({ form, reset, search, searchParams }) => {
-
   const { t } = useTranslation();
   const {
     patternRules: { email, phone }
@@ -29,7 +28,7 @@ const UserSearch: FC<Page.SearchProps> = memo(({ form, reset, search, searchPara
         span: 5
       }}
     >
-         {/* 响应式网格布局：lg(>=1200px)每行4个，md(>=768px)每行2个，sm(<768px)每行1个 */}
+      {/* 响应式网格布局：lg(>=1200px)每行4个，md(>=768px)每行2个，sm(<768px)每行1个 */}
       <Row
         wrap
         gutter={[16, 16]}

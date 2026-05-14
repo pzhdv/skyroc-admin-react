@@ -61,7 +61,7 @@ class GlobalConfig {
   private _noop = () => {};
 
   /** - 水印文本 */
-  private _watermarkText = 'Skyroc';
+  private _watermarkText = 'skyroc-admin-react';
 
   /** - 水印配置 */
   private _watermarkConfig = {

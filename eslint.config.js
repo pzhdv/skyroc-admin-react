@@ -4,6 +4,12 @@ import sort from 'eslint-plugin-sort';
 export default defineConfig(
   {
     ignores: ['ErrorBoundary.tsx'],
+    // 提交前运行 `pnpm typecheck` 和 `pnpm lint`
+    overrides: {
+      '@typescript-eslint/no-unused-vars': 'warn', // 🔥 TypeScript 未使用变量规则：设置为警告
+      'no-console': 'off', // 🔥 彻底关闭 console 报错
+      'no-unused-vars': 'warn' // 🔥原生 ESLint 未使用变量规则：设置为警告
+    },
     prettierRules: {
       singleAttributePerLine: true,
       trailingCommas: 'none'
@@ -14,18 +20,15 @@ export default defineConfig(
   sort.configs['flat/recommended'],
   {
     rules: {
-      '@typescript-eslint/no-unused-vars': 'warn', // 变量未使用
       'import/newline-after-import': 'error',
       'import/no-absolute-path': 'warn',
       'import/no-empty-named-blocks': ['error'],
-
       'import/no-useless-path-segments': [
         'error',
         {
           noUselessIndex: true
         }
       ],
-
       'import/order': [
         'error',
         {
@@ -69,12 +72,13 @@ export default defineConfig(
           allow: 'single-child'
         }
       ],
+
       'react/jsx-props-no-multi-spaces': 'warn',
+
       'react/jsx-sort-props': [
         'warn',
         { callbacksLast: true, ignoreCase: true, multiline: 'last', shorthandFirst: true }
       ],
-
       'react/self-closing-comp': [
         'error',
         {
@@ -82,7 +86,6 @@ export default defineConfig(
           html: true
         }
       ],
-
       'react-refresh/only-export-components': [
         'warn',
         { allowExportNames: ['loader', 'action', 'handle', 'shouldRevalidate'] }
@@ -91,6 +94,7 @@ export default defineConfig(
       'sort/imports': ['off'],
       'sort/string-enums': ['error', { caseSensitive: false, natural: true }],
       'sort/string-unions': ['error', { caseSensitive: false, natural: true }],
+
       'sort/type-properties': ['warn', { caseSensitive: false, natural: true }],
       'sort/type-properties': ['error', { caseSensitive: false, natural: true }]
     }

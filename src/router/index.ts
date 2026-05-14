@@ -6,8 +6,6 @@ import { BaseChildrenRoutes } from './routes/builtin';
  * - 生成所有路由ex
  * - 生成权限路由
  * - 生成常量路由
- *
- * @returns {Object} 返回路由对象
  */
 function initRoutes() {
   // 获取所有文件夹生成的路由并转换成 react-router 路由

@@ -6,7 +6,7 @@ import { fetchGetUserInfo, fetchLogin, fetchRefreshToken } from '../api';
 import { MUTATION_KEYS, QUERY_KEYS } from '../keys';
 
 /**
- * Login hook
+ * 登录 Hook 封装登录接口请求，使用 useMutation 管理异步提交状态
  *
  * @example
  *   const { mutate: login, isPending } = useLogin();
@@ -15,56 +15,59 @@ import { MUTATION_KEYS, QUERY_KEYS } from '../keys';
 export function useLogin() {
   return useMutation({
     mutationFn: (params: Api.Auth.LoginParams) => fetchLogin(params),
-    retry: false
+    retry: false // 登录失败不自动重试
   });
 }
 
 /**
- * Get user info hook
+ * 获取当前登录用户信息 Hook 依赖 token 存在自动发起请求，数据永久缓存，避免重复请求
  *
  * @example
  *   const { data: userInfo, isLoading } = useUserInfo();
  *
- * @param enabled - Whether to enable the query (default: true)
+ * @param enabled - 是否自动启用查询（默认：true）
  */
 export function useUserInfo() {
+  // 判断是否存在 token，存在才自动请求用户信息
   const hasToken = Boolean(localStg.get('token'));
 
-  // 1. 抽离占位数据为常量，方便复用
+  /**
+   * 默认用户信息占位数据 作用：
+   *
+   * 1. 避免 data 为 undefined 导致页面报错
+   * 2. 未登录/加载中时提供安全的空数据结构
+   * 3. 统一类型结构，符合 TS 类型约束
+   */
   const defaultUserInfo: Api.Auth.LoginUserInfo = {
-    /** 用户头像URL（可选）- 空字符串适配未设置头像场景，前端可渲染占位图 */
-    avatar: '',
-    /** 按钮权限列表 - 空数组避免遍历空指针，符合接口非空数组约束 */
-    buttons: [],
-    /** 用户角色列表 - 空数组表示无角色权限，前端可据此隐藏权限相关功能 */
-    roles: [],
-    /** 登录用户ID - 初始化为0（数字类型默认值），区分未登录/无ID状态 */
-    userId: 0,
-    /** 用户名 - 空字符串初始化，登录后赋值 */
-    userName: '',
-    /** 用户昵称 - 空字符串初始化，前端未登录时可展示「未登录」占位文案 */
-    userNick: ''
+    avatar: '', // 用户头像，未设置时为空
+    buttons: [], // 按钮权限码数组
+    hasRoutePermission: false, // 是否有路由权限，默认 false
+    homePath: '', // 默认首页路由
+    roles: [], // 角色列表
+    userId: 0, // 用户ID（数字类型默认值）
+    userName: '', // 登录账号
+    userNick: '' // 用户昵称
   };
 
   const queryResult = useQuery({
-    enabled: hasToken, // enabled 是控制查询是否自动执行的开关
-    gcTime: Infinity,
-    placeholderData: () => defaultUserInfo,
-    queryFn: fetchGetUserInfo,
-    queryKey: QUERY_KEYS.AUTH.USER_INFO,
-    retry: false,
-    staleTime: Infinity
+    enabled: hasToken, // 仅在有 token 时自动执行查询
+    gcTime: Infinity, // 永久缓存，不被垃圾回收
+    placeholderData: () => defaultUserInfo, // 数据未返回时使用的占位数据（不会覆盖缓存）
+    queryFn: fetchGetUserInfo, // 获取用户信息的接口请求函数
+    queryKey: QUERY_KEYS.AUTH.USER_INFO, // 缓存唯一标识
+    retry: false, // 请求失败不自动重试
+    staleTime: Infinity // 数据永不过期，不再重新请求
   });
 
-  // 2. 兜底数据：优先用真实数据 → 再用占位数据常量 → 最后空对象
+  // 数据兜底：确保 data 永远有值，避免 undefined 报错
   const data = queryResult.data ?? defaultUserInfo;
 
-  // 返回整合后的结果，确保 data 不会是 undefined
+  // 返回整合后的查询结果，保证 data 一定存在
   return { ...queryResult, data };
 }
 
 /**
- * Refresh token hook
+ * 刷新 Token Hook 用于登录过期时，通过 refreshToken 获取新的 token
  *
  * @example
  *   const { mutate: refreshToken } = useRefreshToken();
@@ -73,6 +76,6 @@ export function useUserInfo() {
 export function useRefreshToken() {
   return useMutation({
     mutationFn: (refreshToken: string) => fetchRefreshToken(refreshToken),
-    mutationKey: MUTATION_KEYS.AUTH.REFRESH_TOKEN
+    mutationKey: MUTATION_KEYS.AUTH.REFRESH_TOKEN // 缓存/调试唯一标识
   });
 }

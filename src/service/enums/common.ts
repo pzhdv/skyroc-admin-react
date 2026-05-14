@@ -16,3 +16,18 @@ export enum EnableStatus {
 }
 
 export type EnableStatusValue = EnumValue<typeof EnableStatus>;
+
+/** 请求方式枚举 */
+export enum RequestMethod {
+  /** DELETE 删除 */
+  DELETE = 'DELETE',
+  /** GET 查询 */
+  GET = 'GET',
+  /** POST 新增 */
+  POST = 'POST',
+  /** PUT 修改 */
+  PUT = 'PUT'
+}
+
+/** 请求方法值类型 */
+export type RequestMethodValue = EnumValue<typeof RequestMethod>;

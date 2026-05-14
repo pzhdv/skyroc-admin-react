@@ -41,7 +41,6 @@ const localIconOptions = localIcons.map(item => ({
 const MenuOperateModal = ({ allPages, form, handleSubmit, menuList, onClose, open, operateType }: Props) => {
   const { t } = useTranslation();
 
-
   const titles: Record<OperateType, string> = {
     add: t('page.manage.menu.addMenu'),
     addChild: t('page.manage.menu.addChildMenu'),
@@ -72,7 +71,7 @@ const MenuOperateModal = ({ allPages, form, handleSubmit, menuList, onClose, ope
   const rules: Record<RuleKey, App.Global.FormRule> = {
     menuName: defaultRequiredRule,
     routeName: defaultRequiredRule,
-    routePath: defaultRequiredRule,
+    routePath: defaultRequiredRule
   };
 
   return (
@@ -87,6 +86,7 @@ const MenuOperateModal = ({ allPages, form, handleSubmit, menuList, onClose, ope
         <SimpleScrollbar>
           <AForm
             labelWrap
+            autoComplete="off"
             className="pr-20px"
             form={form}
             initialValues={createDefaultModel()}
@@ -168,7 +168,10 @@ const MenuOperateModal = ({ allPages, form, handleSubmit, menuList, onClose, ope
                   label={t('page.manage.menu.pathParam')}
                   name="pathParam"
                 >
-                  <AInput placeholder={t('page.manage.menu.form.pathParam')} disabled />
+                  <AInput
+                    disabled
+                    placeholder={t('page.manage.menu.form.pathParam')}
+                  />
                 </AForm.Item>
               </ACol>
 
@@ -190,7 +193,6 @@ const MenuOperateModal = ({ allPages, form, handleSubmit, menuList, onClose, ope
                 </ACol>
               )}
 
-
               <ACol
                 lg={12}
                 xs={24}
@@ -205,7 +207,6 @@ const MenuOperateModal = ({ allPages, form, handleSubmit, menuList, onClose, ope
                   />
                 </AForm.Item>
               </ACol>
-
 
               {showPage && (
                 <ACol
@@ -282,6 +283,7 @@ const MenuOperateModal = ({ allPages, form, handleSubmit, menuList, onClose, ope
                   name="icon"
                 >
                   {Number(iconType) === 1 ? (
+                    // https://icon-sets.iconify.design/
                     <AInput
                       className="flex-1"
                       placeholder={t('page.manage.menu.form.icon')}
@@ -293,6 +295,7 @@ const MenuOperateModal = ({ allPages, form, handleSubmit, menuList, onClose, ope
                       }
                     />
                   ) : (
+                    // 下载图标放入 /src/assets/svg-icon/*.svg
                     <ASelect
                       allowClear
                       options={localIconOptions}
@@ -450,8 +453,8 @@ const MenuOperateModal = ({ allPages, form, handleSubmit, menuList, onClose, ope
 
                           {subFields.length === 0 && (
                             <AButton
-                              disabled
                               block
+                              disabled
                               icon={<IconCarbonAdd className="align-sub text-icon" />}
                               type="dashed"
                               onClick={() => add('', 0)}

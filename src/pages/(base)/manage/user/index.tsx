@@ -1,6 +1,8 @@
-import { Suspense, lazy } from 'react';
-import { Avatar, Tooltip } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
+import { Avatar, Tooltip } from 'antd';
+import { Suspense, lazy } from 'react';
+
+import buttonAuthCode from '@/constants/btn-auth-code';
 import { enableStatusRecord, userGenderRecord } from '@/constants/business';
 import { ATG_MAP } from '@/constants/common';
 import { TableHeaderOperation, useTable, useTableOperate, useTableScroll } from '@/features/table';
@@ -23,7 +25,7 @@ const ROLE_TAG_COLORS = [
   'purple', // 索引3
   'cyan', // 索引4
   'magenta', // 索引5
-  'lime', // 索引6
+  'lime' // 索引6
 ];
 
 const UserManage = () => {
@@ -45,12 +47,12 @@ const UserManage = () => {
     // 3. 不能是 undefined，否则表单字段将不是响应式的
     apiParams: {
       current: 1,
-      userNick: null,
       size: 10,
       status: null,
       userEmail: null,
       userGender: null,
       userName: null,
+      userNick: null,
       userPhone: null
     },
     columns: () => [
@@ -65,7 +67,7 @@ const UserManage = () => {
         align: 'center',
         dataIndex: 'userId',
         key: 'userId', // 👈 必须有 key
-        title: '用户ID',
+        title: t('page.manage.user.userId'),
         width: 100
       },
       {
@@ -85,7 +87,7 @@ const UserManage = () => {
             />
           );
         },
-        title: '头像',
+        title: t('page.manage.user.avatar'),
         width: 80
       },
       {
@@ -150,87 +152,72 @@ const UserManage = () => {
         align: 'center',
         dataIndex: 'roleList',
         key: 'roleList',
-        title: '角色列表',
         render: (_, record) => (
           <>
-            {
-              record.roleList?.map((role, index) => {
-                const color = ROLE_TAG_COLORS[index % ROLE_TAG_COLORS.length];
-                return (
-                  <Tooltip
+            {record.roleList?.map((role, index) => {
+              const color = ROLE_TAG_COLORS[index % ROLE_TAG_COLORS.length];
+              return (
+                <Tooltip
+                  key={role.roleId}
+                  title={`角色编码：${role.roleCode}`}
+                >
+                  <ATag
+                    className="mb-4px"
+                    color={color}
                     key={role.roleId}
-                    title={`角色编码：${role.roleCode}`}
                   >
-                    <ATag
-                      className="mb-4px"
-                      color={color}
-                      key={role.roleId}
-                    >
-                      {role.roleName}
-                    </ATag>
-                  </Tooltip>
-                );
-              })
-            }
+                    {role.roleName}
+                  </ATag>
+                </Tooltip>
+              );
+            })}
           </>
         ),
+        title: t('page.manage.user.roleList')
       },
       {
         align: 'center',
         dataIndex: 'createTime',
         key: 'createTime', // 👈 必须有 key
-        title: '创建时间',
+        title: t('common.createTime'),
         width: 200
       },
       {
         align: 'center',
         dataIndex: 'updateTime',
-        key: 'updateTime',
-        title: '更新时间', // 👈 必须有 key
+        key: 'updateTime', // 👈 必须有 key
+        title: t('common.updateTime'),
         width: 200
       },
       {
         align: 'center',
+        fixed: 'right',
         key: 'operate',
         render: (_, record) => (
           <div className="flex-center gap-8px">
-            <AButton
-              ghost
-              size="small"
-              type="primary"
+            <AuthEditButton
+              auth={buttonAuthCode.system.user.edit}
               onClick={() => edit(record.userId)}
-            >
-              {t('common.edit')}
-            </AButton>
-            <AButton
-              size="small"
+            />
+            <AuthDetailButton
+              auth={buttonAuthCode.system.user.detail}
               onClick={() => nav(`/manage/user/${record.userId}`)}
-            >
-              详情
-            </AButton>
-            <APopconfirm
-              title={t('common.confirmDelete')}
-              onConfirm={() => handleDelete(record.userId)}
-            >
-              <AButton
-                danger
-                size="small"
-              >
-                {t('common.delete')}
-              </AButton>
-            </APopconfirm>
+            />
+            <AuthDeleteButton
+              auth={buttonAuthCode.system.user.delete}
+              onClick={() => handleDelete(record.userId)}
+            />
           </div>
         ),
         title: t('common.operate'),
-        width: 195
+        width: 240
       }
     ],
-    isChangeURL: false, //是否同步 URL 参数（可选） false: 不同步，true: 同步到 URL
-    rowKey: 'userId',// 行唯一标识(ID)
-    // 分页配置（可选） 【参考Antd Pagination 组件参数】
+    isChangeURL: false, // 是否同步 URL 参数（可选） false: 不同步，true: 同步到 URL
     pagination: {
       showQuickJumper: true
-    }
+    },
+    rowKey: 'userId' // 行唯一标识(ID)
   });
 
   const { checkedRowKeys, generalPopupOperation, handleAdd, handleEdit, onBatchDeleted, onDeleted, rowSelection } =
@@ -244,9 +231,9 @@ const UserManage = () => {
           // 根据操作类型调用不同的 mutation
           if (type === 'add') {
             // 利用 React Query 的 mutateAsync 执行请求
-            await fetchUserAdd(userData)
+            await fetchUserAdd(userData);
           } else {
-            await fetchUserUpdate(userData)
+            await fetchUserUpdate(userData);
           }
         } catch (error) {
           // 全局拦截器已处理错误提示，此处无需重复提示
@@ -265,21 +252,19 @@ const UserManage = () => {
     fetchUserBatchDelete(checkedRowKeys).then(() => {
       // ✅ 只有请求成功，才调用 onBatchDeleted（刷新表格+提示成功）
       onBatchDeleted();
-    })
+    });
   }
-
 
   function handleDelete(id: number) {
     fetchUserDeleteById(id).then(() => {
       //  ✅ 只有请求成功，才调用 onDeleted（刷新表格+提示成功）
       onDeleted();
-    })
+    });
   }
 
   function edit(id: number) {
     handleEdit(id);
   }
-
 
   return (
     <div className="h-full min-h-500px flex-col-stretch gap-16px overflow-hidden lt-sm:overflow-auto">
@@ -304,9 +289,12 @@ const UserManage = () => {
         extra={
           <TableHeaderOperation
             add={handleAdd}
+            addCode={buttonAuthCode.system.user.add}
+            batchDeleteCode={buttonAuthCode.system.user.batchDel}
             columns={columnChecks}
             disabledDelete={checkedRowKeys.length === 0}
             loading={tableProps.loading}
+            needPermission={true}
             refresh={run}
             setColumnChecks={setColumnChecks}
             onDelete={handleBatchDelete}
@@ -315,8 +303,11 @@ const UserManage = () => {
       >
         <ATable
           rowSelection={rowSelection}
-          scroll={scrollConfig}
           size="small"
+          scroll={{
+            ...scrollConfig,
+            x: 'max-content'
+          }}
           {...tableProps}
         />
         <Suspense>

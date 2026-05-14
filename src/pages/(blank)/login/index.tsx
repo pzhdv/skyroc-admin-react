@@ -2,19 +2,18 @@ import { loginModuleRecord } from '@/constants/app';
 import { useInitAuth } from '@/features/auth/auth';
 import { useFormRules } from '@/features/form';
 
-
 interface ILogin {
   password: string;
-  userName: string;
   remember: boolean;
+  userName: string;
 }
 
-type LoginParams = Pick<ILogin, 'password' | 'userName'|'remember'>;
+type LoginParams = Pick<ILogin, 'password' | 'remember' | 'userName'>;
 
 const INITIAL_VALUES = {
   password: 'pzh18785384970@',
   remember: true,
-  userName: 'admin'
+  userName: 'super'
 };
 
 const PwdLogin = () => {
@@ -29,7 +28,6 @@ const PwdLogin = () => {
   const {
     formRules: { pwd, userName: userNameRules }
   } = useFormRules();
-
 
   function goCodeLogin() {
     navigate('code-login');
@@ -70,7 +68,7 @@ const PwdLogin = () => {
           <AInput.Password autoComplete="password" />
         </AForm.Item>
 
-         <AForm.Item>
+        <AForm.Item>
           <AFlex
             align="center"
             justify="space-between"

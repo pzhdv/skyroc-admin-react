@@ -75,7 +75,7 @@ const UserAvatar = memo(() => {
       placement="bottomRight"
       trigger={['click']}
     >
-    <div>
+      <div>
         <ASpace>
           {userInfo.avatar ? (
             <Avatar

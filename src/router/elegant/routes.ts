@@ -132,7 +132,6 @@ export const generatedRoutes: ElegantConstRoute[] = [
                   i18nKey: 'route.(base)_function_super-page',
                   icon: 'ic:round-supervisor-account',
                   order: 5,
-                  roles: ['R_SUPER'],
                   title: 'function_super-page'
                 }
               },
@@ -175,10 +174,23 @@ export const generatedRoutes: ElegantConstRoute[] = [
               i18nKey: 'route.(base)_manage',
               icon: 'carbon:cloud-service-management',
               order: 8,
-              roles: ['R_ADMIN'],
               title: 'manage'
             },
             children: [
+              {
+                matchedFiles: [null, '/src/pages/(base)/manage/button/index.tsx', null, null],
+                name: '(base)_manage_button',
+                path: '/manage/button',
+                handle: { i18nKey: 'route.(base)_manage_button', title: '(base)_manage_button' },
+                children: [
+                  {
+                    matchedFiles: [null, '/src/pages/(base)/manage/button/[...slug].tsx', null, null],
+                    name: '(base)_manage_button_[...slug]',
+                    path: '/manage/button/*',
+                    handle: { i18nKey: 'route.(base)_manage_button_[...slug]', title: '(base)_manage_button_[...slug]' }
+                  }
+                ]
+              },
               {
                 matchedFiles: [null, '/src/pages/(base)/manage/menu/index.tsx', null, null],
                 name: '(base)_manage_menu',
@@ -187,9 +199,14 @@ export const generatedRoutes: ElegantConstRoute[] = [
                   i18nKey: 'route.(base)_manage_menu',
                   title: 'Manage Menu',
                   icon: 'material-symbols:route',
-                  order: 3,
-                  roles: ['R_SUPER']
+                  order: 3
                 }
+              },
+              {
+                matchedFiles: [null, '/src/pages/(base)/manage/operation-log/index.tsx', null, null],
+                name: '(base)_manage_operation-log',
+                path: '/manage/operation-log',
+                handle: { i18nKey: 'route.(base)_manage_operation-log', title: '(base)_manage_operation-log' }
               },
               {
                 matchedFiles: [null, '/src/pages/(base)/manage/role/index.tsx', null, null],
@@ -225,7 +242,6 @@ export const generatedRoutes: ElegantConstRoute[] = [
                   icon: 'ic:round-manage-accounts',
                   keepAlive: true,
                   order: 1,
-                  roles: ['R_ADMIN'],
                   title: 'manage_user'
                 },
                 children: [

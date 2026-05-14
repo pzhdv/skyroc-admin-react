@@ -25,5 +25,5 @@ export const { resetAuth, setToken } = authSlice.actions;
 
 export const { selectToken } = authSlice.selectors;
 
-/** Is login */
+// 判断用户是否已登录
 export const getIsLogin = createSelector([selectToken], token => Boolean(token));

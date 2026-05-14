@@ -82,3 +82,82 @@ export const request = createRequest<App.Service.Response, RequestInstanceState>
     }
   }
 );
+
+// /** 创建 Demo 服务的请求实例 基于全局配置的 demo 服务 baseURL，包含完整的请求/响应/错误拦截逻辑 */
+// export const demoRequest = createRequest<App.Service.DemoResponse>(
+//   // 第一部分：请求基础配置
+//   {
+//     // 设置 Demo 服务的基础 URL（来自全局多服务地址配置）
+//     baseURL: globalConfig.serviceOtherBaseURL.demo
+//   },
+
+//   // 第二部分：请求拦截器 & 响应处理 & 错误处理
+//   {
+//     /**
+//      * 判断后端请求是否成功
+//      *
+//      * @param response 后端原始响应
+//      */
+//     isBackendSuccess(response) {
+//       // 自定义成功逻辑：当后端返回 status === "200" 时表示业务成功
+//       // 可根据自己项目后端的字段修改（如 code、success 等）
+//       return response.data.status === '200';
+//     },
+
+//     /**
+//      * 后端业务失败时的处理逻辑
+//      *
+//      * @param _response 后端原始响应
+//      */
+//     async onBackendFail(_response) {
+//       // 后端返回非成功状态码时执行（如 token 过期、权限不足、业务异常）
+//       // 可在此处做：刷新 token、重新登录、跳转页面、重试请求等
+//     },
+
+//     /**
+//      * 请求发生错误时的统一处理（网络错误、超时、404、500等）
+//      *
+//      * @param error 错误对象
+//      */
+//     onError(error) {
+//       // 默认错误提示信息
+//       let message = error.message;
+
+//       // 如果是后端业务错误，优先使用后端返回的错误信息
+//       if (error.code === BACKEND_ERROR_CODE) {
+//         message = error.response?.data?.message || message;
+//       }
+
+//       // 全局弹出错误提示
+//       window.$message?.error(message);
+//     },
+
+//     /**
+//      * 请求发送前的拦截处理
+//      *
+//      * @param config 请求配置
+//      */
+//     async onRequest(config) {
+//       const { headers } = config;
+
+//       // 从本地存储获取 token，并添加到请求头 Authorization
+//       const token = localStg.get('token');
+//       const Authorization = token ? `Bearer ${token}` : null;
+
+//       // 将 token 注入请求头
+//       Object.assign(headers, { Authorization });
+
+//       return config;
+//     },
+
+//     /**
+//      * 格式化后端响应数据，只返回需要的业务数据
+//      *
+//      * @param response 后端原始响应
+//      */
+//     transformBackendResponse(response) {
+//       // 只返回 result 字段，业务代码直接拿到数据，无需每次解构
+//       return response.data.result;
+//     }
+//   }
+// );

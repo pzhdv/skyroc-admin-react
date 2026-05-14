@@ -4,11 +4,11 @@ const GlobalFooter = () => {
   return (
     <DarkModeContainer className="h-full flex-center">
       <a
-        href="https://github.com/Ohh-889/skyroc-admin/blob/main/LICENSE"
+        href="https://github.com/pzhdv/skyroc-admin-react"
         rel="noopener noreferrer"
         target="_blank"
       >
-        Copyright MIT © 2021 Skyroc
+        Copyright MIT © 2025 skyroc-admin-react
       </a>
     </DarkModeContainer>
   );

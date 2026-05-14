@@ -17,4 +17,3 @@ const SkyrocAvatar = ({ className, ...props }: React.ComponentProps<'div'>) => {
 };
 
 export default SkyrocAvatar;
-

@@ -7,6 +7,8 @@ import { useFormRules } from '@/features/form';
 import { EnableStatus, UserGender } from '@/service/enums';
 import { useAllRoles } from '@/service/hooks';
 
+import { getUserNameRules } from './UserFormValidate';
+
 interface OptionsProps {
   label: string;
   value: number;
@@ -48,10 +50,12 @@ const UserOperateDrawer: FC<Page.OperateDrawerProps> = ({ form, handleSubmit, on
   const { t } = useTranslation();
 
   const { data, refetch } = useAllRoles();
+  // 组件挂载时缓存初始值
+  const [initialUserName, setInitialUserName] = useState('');
 
   const {
     defaultRequiredRule,
-    formRules: { email, phone, pwd, userName: userNameRules }
+    formRules: { email, phone, pwd }
   } = useFormRules();
 
   const roleOptions: OptionsProps[] = data ? data.map(getOptions) : [];
@@ -62,6 +66,9 @@ const UserOperateDrawer: FC<Page.OperateDrawerProps> = ({ form, handleSubmit, on
     userGender: defaultRequiredRule,
     userNick: defaultRequiredRule
   };
+
+  // 用户名校验规则
+  const userNameRules = getUserNameRules(initialUserName, operateType);
 
   // 根据操作类型获取密码字段的校验规则
   const getPasswordRules = (type: 'add' | 'edit') => {
@@ -100,6 +107,12 @@ const UserOperateDrawer: FC<Page.OperateDrawerProps> = ({ form, handleSubmit, on
           status: EnableStatus.ENABLED,
           userGender: UserGender.MALE
         });
+        // 新增模式：清空原始用户名
+        setInitialUserName('');
+      } else {
+        // 编辑时缓存初始用户名
+        const userName = form.getFieldValue('userName');
+        setInitialUserName(userName);
       }
     }
   }, [form, open, operateType, refetch]); // 依赖完整，避免闭包问题

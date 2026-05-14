@@ -5,8 +5,57 @@
  */
 declare namespace Api {
   namespace SystemManage {
-    /** 通用搜索参数 */
-    type CommonSearchParams = Pick<Common.PaginatingCommonParams, 'current' | 'size'>;
+    /** 日志搜索参数 */
+    type SysOperationLogSearchParams = CommonType.RecordNullable<
+      Pick<Api.SystemManage.SysOperationLog, 'requestMethod' | 'requestUrl' | 'username'> &
+        Common.CommonSearchParams & {
+          beginTime: string;
+          endTime: string;
+          maxCostTime: number;
+          minCostTime: number;
+        }
+    >;
+
+    // 日志分页列表
+    type SysOperationLogList = Common.PaginatingQueryRecord<SysOperationLog>;
+
+    type RequestMethod = import('../enums').RequestMethodValue;
+
+    /** 系统接口访问日志表 */
+    interface SysOperationLog {
+      /** 接口耗时(毫秒) */
+      costTime: number;
+
+      /** 创建时间 */
+      createTime: string | Date;
+
+      /** 接口功能描述 */
+      description: string;
+
+      /** 主键ID */
+      id: number;
+
+      /** 访问IP地址 */
+      ipAddress: string;
+
+      /** 请求方式 GET/POST/PUT/DELETE */
+      requestMethod: string;
+
+      /** 请求参数 */
+      requestParams: string;
+
+      /** 请求接口路径 */
+      requestUrl: string;
+
+      /** 响应结果 */
+      responseResult: string;
+
+      /** 浏览器/设备UA信息 */
+      userAgent: string;
+
+      /** 登录用户名 */
+      username: string;
+    }
 
     /** 角色 */
     interface SysRole {
@@ -16,7 +65,7 @@ declare namespace Api {
       /** 默认首页ID 关联页面/菜单表的主键ID，用于指定该角色登录后默认打开的首页 */
       defaultHomePageId?: number;
 
-      /** 角色编码（唯一标识，如：admin/editor/guest） */
+      /** 角色编码（唯一标识，如：R_SUPER_ADMIN/R_ADMIN/R_GUEST） */
       roleCode: string;
 
       /** 角色描述 */
@@ -25,7 +74,7 @@ declare namespace Api {
       /** 角色ID（主键） */
       roleId: number;
 
-      /** 角色名称（如：超级管理员/普通编辑/游客） */
+      /** 角色名称（如：：超级管理员/管理员/访客） */
       roleName: string;
 
       /**
@@ -42,15 +91,23 @@ declare namespace Api {
 
     /** 角色搜索参数 */
     type RoleSearchParams = CommonType.RecordNullable<
-      Pick<Api.SystemManage.SysRole, 'roleCode' | 'roleName' | 'status'> & CommonSearchParams
+      Pick<Api.SystemManage.SysRole, 'roleCode' | 'roleName' | 'status'> & Common.CommonSearchParams
     >;
 
-    /** 角色菜单信息VO */
+    /** 角色菜单信息VO 用于接收/返回角色关联的菜单数据 */
     type RoleMenuVO = {
-      /** 默认首页ID */
+      /** 默认首页菜单ID */
       defaultHomePageId?: number;
-      /** 菜单Id列表 */
+      /** 菜单ID列表 */
       menuIdList: number[];
+      /** 角色ID */
+      roleId: number;
+    };
+
+    /** 角色按钮信息VO 用于接收/返回角色关联的按钮权限数据 */
+    type RoleButtonVO = {
+      /** 按钮ID列表 */
+      buttonIdList: number[];
       /** 角色ID */
       roleId: number;
     };
@@ -164,7 +221,7 @@ declare namespace Api {
     /** 用户搜索参数 */
     type UserSearchParams = CommonType.RecordNullable<
       Pick<Api.SystemManage.SystemUser, 'status' | 'userEmail' | 'userGender' | 'userName' | 'userNick' | 'userPhone'> &
-        CommonSearchParams
+        Common.CommonSearchParams
     >;
 
     /** 用户列表 */
@@ -224,7 +281,7 @@ declare namespace Api {
       /** 常量路由：true=是，false=否（对应数据库1/0） */
       constant: boolean;
       /** 创建时间 */
-      createdTime?: string;
+      createTime?: string;
       /** 固定在页签中的序号（默认999表示不固定，数字越小越靠前） */
       fixedIndexInTab?: number;
       /** 隐藏菜单：true=是，false=否（对应数据库1/0） */
@@ -262,12 +319,12 @@ declare namespace Api {
       /** 菜单状态：1=启用，2=禁用 */
       status: EnableStatus;
       /** 修改时间 */
-      updatedTime?: string;
+      updateTime?: string;
     }
 
     /** 菜单搜索参数 */
     type SysMenuSearchParams = CommonType.RecordNullable<
-      Pick<Api.SystemManage.SysMenu, 'menuName' | 'menuType' | 'parentId' | 'status'> & CommonSearchParams
+      Pick<Api.SystemManage.SysMenu, 'menuName' | 'menuType' | 'parentId' | 'status'> & Common.CommonSearchParams
     >;
 
     /** 菜单列表 */
@@ -284,5 +341,42 @@ declare namespace Api {
       /** 父级菜单 ID */
       pId: number;
     };
+
+    /** ********************************菜单按钮权限相关************************************* */
+    interface SysButton {
+      /** 按钮编码（唯一，如：btn:sys:user:add/btn:sys:user:edit） */
+      buttonCode: string;
+
+      /** 按钮ID（主键） */
+      buttonId: number;
+
+      /** 按钮名称（如：新增、编辑、删除） */
+      buttonName: string;
+
+      /** 创建时间 */
+      createTime: string;
+
+      /** 菜单国际化key（非数据库字段，用于关联查询返回） */
+      menuI18nKey?: string;
+
+      /** 关联菜单ID（关联 sys_menu.menu_id） */
+      menuId: number;
+
+      // ========== 非数据库字段（查询返回扩展） ==========
+      /** 菜单名称（非数据库字段，用于关联查询返回） */
+      menuName?: string;
+
+      /** 状态：1=启用 2=禁用 */
+      status: EnableStatus;
+
+      /** 更新时间 */
+      updateTime?: string;
+    }
+    /** 权限按钮列表 */
+    type SysButtonList = Common.PaginatingQueryRecord<SysButton>;
+    /** 权限按钮搜索参数 */
+    type SysButtonSearchParams = CommonType.RecordNullable<
+      Pick<Api.SystemManage.SysButton, 'menuId' | 'status'> & Common.CommonSearchParams
+    >;
   }
 }

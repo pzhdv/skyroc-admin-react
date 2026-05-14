@@ -1,5 +1,4 @@
 import { request } from '../request';
-import { AUTH_URLS } from '../urls';
 
 /**
  * 用户登录
@@ -37,14 +36,4 @@ export function fetchRefreshToken(refreshToken: string) {
     method: 'post',
     url: '/auth/refreshToken'
   });
-}
-
-/**
- * return custom backend error
- *
- * @param code error code
- * @param msg error message
- */
-export function fetchCustomBackendError(code: string, msg: string) {
-  // return request({ params: { code, msg }, url: AUTH_URLS.ERROR });
 }

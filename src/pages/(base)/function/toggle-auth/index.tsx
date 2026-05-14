@@ -1,7 +1,7 @@
 import { useLoading } from '@sa/hooks';
 import type { DescriptionsProps } from 'antd';
 
-import { useAuth } from '@/features/auth';
+import buttonAuthCode from '@/constants/btn-auth-code';
 import { useInitAuth } from '@/features/auth/auth';
 import { useRouter } from '@/features/router';
 import { useUserInfo } from '@/service/hooks';
@@ -20,8 +20,6 @@ const ToggleAuth = () => {
 
   const { data: userInfo } = useUserInfo();
 
-  const { hasAuth } = useAuth();
-
   const { toLogin } = useInitAuth();
 
   const { loading, startLoading } = useLoading();
@@ -34,20 +32,20 @@ const ToggleAuth = () => {
     {
       key: 'super',
       label: t('page.login.pwdLogin.superAdmin'),
-      password: '123456',
-      userName: 'Super'
+      password: 'pzh18785384970@',
+      userName: 'super'
     },
     {
       key: 'admin',
       label: t('page.login.pwdLogin.admin'),
-      password: '123456',
-      userName: 'Admin'
+      password: 'pzh18785384970@',
+      userName: 'admin'
     },
     {
       key: 'user',
       label: t('page.login.pwdLogin.user'),
-      password: '123456',
-      userName: 'User'
+      password: 'pzh18785384970@',
+      userName: 'user'
     }
   ];
 
@@ -86,7 +84,9 @@ const ToggleAuth = () => {
 
     await toLogin({ password: account.password, userName: account.userName }, false);
 
-    reload();
+    setTimeout(() => {
+      reload();
+    }, 500); // 模拟网络请求延迟，确保路由重置后再重新加载页面
   }
   return (
     <ASpace
@@ -113,10 +113,24 @@ const ToggleAuth = () => {
           title={t('page.function.toggleAuth.authHook')}
           variant="borderless"
         >
+          <div className="my-2">
+            <ASpace>
+              <span>这里有三个按钮</span>
+              <span>{t('page.function.toggleAuth.superAdminVisible')}</span>
+              <span>{t('page.function.toggleAuth.adminVisible')}</span>
+              <span>{t('page.function.toggleAuth.adminOrUserVisible')}</span>
+            </ASpace>
+          </div>
           <ASpace>
-            {hasAuth('B_CODE1') && <AButton>{t('page.function.toggleAuth.superAdminVisible')}</AButton>}
-            {hasAuth('B_CODE2') && <AButton>{t('page.function.toggleAuth.adminVisible')}</AButton>}
-            {hasAuth('B_CODE3') && <AButton>{t('page.function.toggleAuth.adminOrUserVisible')}</AButton>}
+            <AuthBtn auth={buttonAuthCode.function.auth.super.view}>
+              {t('page.function.toggleAuth.superAdminVisible')}
+            </AuthBtn>
+            <AuthBtn auth={buttonAuthCode.function.auth.admin.view}>
+              {t('page.function.toggleAuth.adminVisible')}
+            </AuthBtn>
+            <AuthBtn auth={buttonAuthCode.function.auth.user.view}>
+              {t('page.function.toggleAuth.adminOrUserVisible')}
+            </AuthBtn>
           </ASpace>
         </ACard>
       </ACard>

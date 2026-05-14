@@ -126,7 +126,7 @@ export function useTable<A extends AntDesign.TableApiFn>(config: Config<A>) {
   const pagination: TablePaginationConfig = {
     current: pageNum,
     pageSize,
-    pageSizeOptions: ['10', '15', '20', '25', '30'],
+    pageSizeOptions: ['10', '20', '50', '100', '200', '500'],
     showSizeChanger: true,
     simple: isMobile,
     total,

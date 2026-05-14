@@ -290,6 +290,8 @@ declare namespace App {
     type Schema = {
       translation: {
         common: {
+          accessDenied: string;
+          accessDeniedTitle: string;
           action: string;
           add: string;
           addSuccess: string;
@@ -302,12 +304,16 @@ declare namespace App {
           config: string;
           confirm: string;
           confirmDelete: string;
+          createTime: string;
           delete: string;
           deleteSuccess: string;
+          detail: string;
           edit: string;
           error: string;
           errorHint: string;
           expandColumn: string;
+          grant: string;
+          grantSuccess: string;
           index: string;
           keywordSearch: string;
           logout: string;
@@ -327,7 +333,9 @@ declare namespace App {
           tryAlign: string;
           update: string;
           updateSuccess: string;
+          updateTime: string;
           userCenter: string;
+          view: string;
           warning: string;
           yesOrNo: {
             no: string;
@@ -372,6 +380,20 @@ declare namespace App {
               version: string;
             };
             title: string;
+          };
+          exception: {
+            noPermission: {
+              desc: string;
+            };
+            notFound: {
+              desc: string;
+            };
+            notLogin: {
+              desc: string;
+            };
+            serverError: {
+              desc: string;
+            };
           };
           function: {
             multiTab: {
@@ -486,10 +508,59 @@ declare namespace App {
             };
           };
           manage: {
+            button: {
+              addButton: string;
+              buttonCode: string;
+              buttonName: string;
+              buttonStatus: string;
+              editButton: string;
+              form: {
+                buttonCode: string;
+                buttonName: string;
+                buttonStatus: string;
+                selectMenuName: string;
+              };
+              selectMenuName: string;
+              title: string;
+            };
             common: {
               status: {
                 disable: string;
                 enable: string;
+              };
+            };
+            log: {
+              form: {
+                placeholder: {
+                  maxCostTime: string;
+                  minCostTime: string;
+                  requestMethod: string;
+                  requestUrl: string;
+                  username: string;
+                };
+              };
+              method: {
+                delete: string;
+                get: string;
+                post: string;
+                put: string;
+              };
+              tableTitle: string;
+              title: {
+                costTime: string;
+                createTime: string;
+                description: string;
+                index: string;
+                ipAddress: string;
+                maxCostTime: string;
+                minCostTime: string;
+                operate: string;
+                requestMethod: string;
+                requestParams: string;
+                requestUrl: string;
+                responseResult: string;
+                userAgent: string;
+                username: string;
               };
             };
             menu: {
@@ -499,6 +570,7 @@ declare namespace App {
               button: string;
               buttonCode: string;
               buttonDesc: string;
+              component: string;
               constant: string;
               editMenu: string;
               fixedIndexInTab: string;
@@ -585,6 +657,7 @@ declare namespace App {
             };
             user: {
               addUser: string;
+              avatar: string;
               editUser: string;
               form: {
                 nickName: string;
@@ -601,9 +674,11 @@ declare namespace App {
                 male: string;
               };
               nickName: string;
+              roleList: string;
               title: string;
               userEmail: string;
               userGender: string;
+              userId: string;
               userName: string;
               userPassword: string;
               userPhone: string;

@@ -1,12 +1,19 @@
+import { Tooltip } from 'antd';
 import { Suspense } from 'react';
 
+import buttonAuthCode from '@/constants/btn-auth-code';
 import { enableStatusRecord } from '@/constants/business';
 import { ATG_MAP } from '@/constants/common';
 import { TableHeaderOperation, useTable, useTableOperate, useTableScroll } from '@/features/table';
-import { fetchGetRoleList, fetchRoleAdd, fetchRoleBatchDelete, fetchRoleDeleteById, fetchRoleEdit } from '@/service/api';
+import {
+  fetchGetRoleList,
+  fetchRoleAdd,
+  fetchRoleBatchDelete,
+  fetchRoleDeleteById,
+  fetchRoleEdit
+} from '@/service/api';
 
 import RoleSearch from './modules/role-search';
-import { Tooltip } from 'antd';
 
 const RoleOperateDrawer = lazy(() => import('./modules/role-operate-drawer'));
 
@@ -81,8 +88,6 @@ const Role = () => {
         align: 'center',
         dataIndex: 'roleDesc',
         key: 'roleDesc',
-        title: t('page.manage.role.roleDesc'),
-        width: 200,
         onCell: () => {
           return {
             style: {
@@ -101,19 +106,21 @@ const Role = () => {
             <span className="ellipsis-text">{record.roleDesc}</span>
           </Tooltip>
         ),
+        title: t('page.manage.role.roleDesc'),
+        width: 200
       },
       {
         align: 'center',
         dataIndex: 'createTime',
         key: 'createTime', // 👈 必须有 key
-        title: '创建时间',
+        title: t('common.createTime'),
         width: 200
       },
       {
         align: 'center',
         dataIndex: 'updateTime',
-        key: 'updateTime',
-        title: '更新时间', // 👈 必须有 key
+        key: 'updateTime', // 👈 必须有 key
+        title: t('common.updateTime'),
         width: 200
       },
       {
@@ -121,39 +128,29 @@ const Role = () => {
         key: 'operate',
         render: (_, record) => (
           <div className="flex-center gap-8px">
-            <AButton
-              ghost
-              size="small"
-              type="primary"
+            <AuthEditButton
+              auth={buttonAuthCode.system.role.edit}
               onClick={() => edit(record.roleId)}
-            >
-              {t('common.edit')}
-            </AButton>
-            <AButton
-              size="small"
+            />
+            <AuthDetailButton
+              auth={buttonAuthCode.system.role.detail}
               onClick={() => nav(`/manage/role/${record.roleId}/${record.roleName}/${record.status}`)}
-            >
-              详情
-            </AButton>
-            <APopconfirm
-              title={t('common.confirmDelete')}
-              onConfirm={() => handleDelete(record.roleId)}
-            >
-              <AButton
-                danger
-                size="small"
-              >
-                {t('common.delete')}
-              </AButton>
-            </APopconfirm>
+            />
+            <AuthDeleteButton
+              auth={buttonAuthCode.system.role.delete}
+              onClick={() => handleDelete(record.roleId)}
+            />
           </div>
         ),
         title: t('common.operate'),
-        width: 195
+        width: 240
       }
     ],
-    isChangeURL: false, //是否同步 URL 参数（可选） false: 不同步，true: 同步到 URL
-    rowKey: 'roleId' // 行唯一标识(ID)
+    isChangeURL: false, // 行唯一标识(ID)
+    pagination: {
+      hideOnSinglePage: true
+    }, // 是否同步 URL 参数（可选） false: 不同步，true: 同步到 URL
+    rowKey: 'roleId'
   });
 
   const {
@@ -175,9 +172,9 @@ const Role = () => {
       try {
         // 根据操作类型调用不同的 API
         if (type === 'add') {
-          await fetchRoleAdd(newData)
+          await fetchRoleAdd(newData);
         } else {
-          await fetchRoleEdit(newData)
+          await fetchRoleEdit(newData);
         }
       } catch (error) {
         // 全局拦截器已处理错误提示，此处无需重复提示
@@ -199,7 +196,7 @@ const Role = () => {
     fetchRoleBatchDelete(checkedRowKeys).then(() => {
       // ✅ 只有请求成功，才调用 onBatchDeleted（刷新表格+提示成功）
       onBatchDeleted();
-    })
+    });
   }
 
   function handleDelete(id: number) {
@@ -207,7 +204,7 @@ const Role = () => {
     fetchRoleDeleteById(id).then(() => {
       //  ✅ 只有请求成功，才调用 onDeleted（刷新表格+提示成功）
       onDeleted();
-    })
+    });
   }
 
   function edit(id: number) {
@@ -237,9 +234,12 @@ const Role = () => {
         extra={
           <TableHeaderOperation
             add={handleAdd}
+            addCode={buttonAuthCode.system.role.add}
+            batchDeleteCode={buttonAuthCode.system.role.batchDel}
             columns={columnChecks}
             disabledDelete={checkedRowKeys.length === 0}
             loading={tableProps.loading}
+            needPermission={true}
             refresh={run}
             setColumnChecks={setColumnChecks}
             onDelete={handleBatchDelete}
