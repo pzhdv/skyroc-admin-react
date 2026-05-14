@@ -137,7 +137,11 @@
 ### 11. 用户管理
 ![用户管理](./docs/images/08-user-management.png)
 
----
+### 12.日志列表
+
+
+![用户管理](./docs/images/09-sys-log.png)
+
 
 ## 📁 项目结构
 
@@ -148,7 +152,7 @@ skyroc-admin-react/
 │   ├── color/                      # @sa/color - 主题颜色处理
 │   ├── hooks/                      # @sa/hooks - React Hooks 集合
 │   ├── materials/                  # @sa/materials - 通用物料组件
-│   ├── ofetch/                     # Fetch 封装
+│   ├── ofetch/                     # @sa/ofetch - Fetch 封装
 │   ├── scripts/                    # @sa/scripts - 命令行工具
 │   ├── uno-preset/                 # @sa/uno-preset - UnoCSS 预设
 │   └── utils/                      # @sa/utils - 通用工具函数
@@ -160,16 +164,37 @@ skyroc-admin-react/
 │   │   └── UploadImage/            # 图片上传组件
 │   ├── config.ts                   # 全局配置
 │   ├── constants/                  # 常量定义
-│   ├── features/                   # 功能模块
-│   │   ├── auth/                  # 认证模块
-│   │   ├── menu/                  # 菜单模块
-│   │   ├── router/                # 路由模块
-│   │   ├── tab/                   # 标签栏模块
-│   │   └── theme/                 # 主题模块
+│   ├── features/                   # 功能模块 (Feature-Sliced Design)
+│   │   ├── animate/               # 动画功能模块
+│   │   ├── antdConfig/           # Ant Design 配置模块
+│   │   ├── auth/                 # 认证授权模块
+│   │   ├── form/                 # 表单处理模块
+│   │   ├── lang/                 # 国际化模块
+│   │   ├── menu/                 # 菜单模块
+│   │   ├── router/               # 路由模块
+│   │   ├── tab/                  # 标签栏模块
+│   │   ├── table/                # 表格模块
+│   │   └── theme/                # 主题模块
 │   ├── hooks/                      # 业务 Hooks
 │   ├── layouts/                    # 布局组件
 │   ├── locales/                    # 国际化语言包
-│   ├── pages/                      # 页面
+│   ├── pages/                      # 页面 (约定式路由)
+│   │   ├── (base)/                # 基础布局页面
+│   │   │   ├── about/            # 关于我们
+│   │   │   ├── function/         # 功能演示
+│   │   │   ├── home/             # 首页/仪表盘
+│   │   │   ├── manage/           # 系统管理
+│   │   │   │   ├── button/       # 按钮管理
+│   │   │   │   ├── menu/         # 菜单管理
+│   │   │   │   ├── operation-log/# 操作日志
+│   │   │   │   ├── role/         # 角色管理
+│   │   │   │   └── user/         # 用户管理
+│   │   │   ├── multi-menu/       # 多级菜单演示
+│   │   │   ├── projects/         # 项目管理
+│   │   │   └── user-center/      # 用户中心
+│   │   ├── (blank)/              # 空白布局页面
+│   │   │   └── login/            # 登录相关页面
+│   │   └── _builtin/             # 内置页面 (403/404/500)
 │   ├── router/                     # 路由配置
 │   ├── service/                    # 服务层 (API)
 │   ├── store/                      # Redux Store
@@ -202,24 +227,25 @@ skyroc-admin-react/
 
 | 📄 页面 | 📝 功能说明 |
 |--------|------------|
-| 👤 用户管理 | 用户列表、新增/编辑用户、批量删除 |
-| 👥 角色管理 | 角色列表、权限分配、按钮级别权限配置 |
-| 📑 菜单管理 | 菜单树形结构、拖拽排序、图标选择 |
-| 🔘 按钮管理 | 按钮权限码管理、关联页面配置 |
+| 👤 用户管理 | 用户列表、新增/编辑用户、重置密码、批量删除、导入导出 |
+| 👥 角色管理 | 角色列表、新增/编辑角色、菜单授权、按钮授权、角色切换 |
+| 📑 菜单管理 | 菜单树形结构、拖拽排序、图标选择、外链/内链配置 |
+| 🔘 按钮管理 | 按钮权限码管理、关联页面配置、批量操作 |
+| 📋 操作日志 | 操作记录查询、时间范围筛选、操作类型统计 |
 
-### 🧪 功能演示
+### 🎯 功能演示
 
-🏷️ **多标签页** — 标签栏功能演示，支持增删改刷新
-
-🔄 **权限切换** — 动态切换用户角色，实时生效
-
-👻 **隐藏子菜单** — 菜单配置隐藏子菜单项
-
-🔍 **全局搜索** — 快捷键唤起，搜索页面/菜单
+| 📄 页面 | 📝 功能说明 |
+|--------|------------|
+| 🏷️ 多标签页 | 标签栏功能演示，支持增删改刷新 |
+| 🔄 权限切换 | 动态切换用户角色，实时生效 |
+| 👻 隐藏子菜单 | 菜单配置隐藏子菜单项演示（一级/二级/三级） |
+| 📡 请求示例 | 请求封装使用示例 |
+| 🚌 事件总线 | 组件间通信事件示例 |
 
 ### 🔐 登录模块
 
-🔑 密码登录 (支持记住密码)
+🔑 密码登录
 
 📱 验证码登录
 
@@ -236,21 +262,88 @@ skyroc-admin-react/
 项目根目录下的 `.env` 文件配置：
 
 ```bash
-# 基础路径
-VITE_BASE_URL=/
+# ==================== 项目信息 ====================
 
-# 首页路由
+# 项目基础路径
+VITE_BASE_URL=/skyroc/
+
+# 项目标题（显示在浏览器标签页等位置）
+VITE_APP_TITLE=博客管理系统
+
+# 项目描述
+VITE_APP_DESC=skyroc-admin-react 是一款清新优雅的管理系统模板
+
+# ==================== 图标配置 ====================
+
+# 图标名称前缀（用于统一图标命名规范）
+VITE_ICON_PREFIX=icon
+
+# 本地 SVG 图标组件的前缀，必须包含上方配置的 VITE_ICON_PREFIX
+VITE_ICON_LOCAL_PREFIX=icon-local
+
+# 菜单默认图标（未自定义图标的菜单将使用此图标）
+VITE_MENU_ICON=mdi:menu
+
+# ==================== 路由配置 ====================
+
+# 路由模式：static（静态路由）｜ dynamic（动态路由，从后端获取）
+VITE_AUTH_ROUTE_MODE=dynamic
+
+# 静态路由模式下的首页路径
 VITE_ROUTE_HOME=/home
 
-# API 基础地址
-VITE_API_URL=http://localhost:8080
+# vue-router 路由模式：hash ｜ history ｜ memory
+VITE_ROUTER_HISTORY_MODE=history
 
-# 是否开启 HTTP 代理
+# 静态路由超级管理员角色
+VITE_STATIC_SUPER_ROLE=R_SUPER
+
+# ==================== 服务配置 ====================
+
+# 后端服务基础地址
+VITE_SERVICE_BASE_URL=https://mock.apifox.cn/m1/3109515-0-default
+
+# 其他后端服务基础地址
+VITE_OTHER_SERVICE_BASE_URL={
+  "demo": "http://localhost:9528"
+}
+
+# 请求成功状态码
+VITE_SERVICE_SUCCESS_CODE=200
+
+# 强制登出状态码（如 401001 无效令牌、401005 未登录）
+VITE_SERVICE_LOGOUT_CODES=401001,401005
+
+# Token 过期状态码（触发自动刷新 Token）
+VITE_SERVICE_EXPIRED_TOKEN_CODES=401003
+
+# ==================== 开发配置 ====================
+
+# 是否启用 HTTP 代理（解决跨域问题）
 VITE_HTTP_PROXY=Y
 
-# 图标本地前缀
-VITE_ICON_LOCAL_PREFIX=local
+# 是否在终端显示代理地址日志
+VITE_PROXY_LOG=Y
+
+# 是否生成 SourceMap（N 为关闭，减小体积；Y 为开启，便于调试）
+VITE_SOURCE_MAP=N
+
+# ==================== 其他配置 ====================
+
+# 本地存储前缀（避免多项目数据冲突）
+VITE_STORAGE_PREFIX=SKYROC-ADMIN-REACT_
+
+# 是否自动检测更新
+VITE_AUTOMATICALLY_DETECT_UPDATE=N
 ```
+
+### 环境变量文件说明
+
+| 文件 | 环境 | 说明 |
+|------|------|------|
+| `.env` | 开发环境 | 使用 mock 接口，联调开发 |
+| `.env.test` | 测试环境 | 对接本地后端服务 |
+| `.env.prod` | 生产环境 | 对接线上后端服务 |
 
 ---
 
